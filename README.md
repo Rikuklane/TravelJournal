@@ -1,4 +1,4 @@
-# TravelJournal
+# TravelPad
 An android app to journal your travels.
 
 ## Team
