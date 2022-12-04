@@ -16,7 +16,7 @@ import java.io.File
 
 class TripDetailsFragment : Fragment() {
 
-    companion object { const val EXTRA_TRIP_ID = "tripID" }
+    companion object { const val EXTRA_TRIP_ID = "tripId" }
     private var _binding: FragmentTripDetailsBinding? = null
 
     // This property is only valid between onCreateView and
@@ -43,8 +43,8 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun loadAndShowTrip() {
-        // Get trip ID from intent, load trip details from DB and show it in the UI
-        val id = activity?.intent?.getIntExtra(EXTRA_TRIP_ID, -1)
+        // Get trip ID from arguments, load trip details from DB and show it in the UI
+        val id = arguments?.getInt(EXTRA_TRIP_ID)
 
         val loadedTrip = id?.let { getTripFromDB(it) }
         loadedTrip?.let { showTrip(it) }
@@ -53,7 +53,7 @@ class TripDetailsFragment : Fragment() {
     private fun getTripFromDB(id: Int): TripEntity? {
         val tripsInDB = context?.let { LocalDB.getInstance(it).getTripDAO().loadTrips() }
         if (tripsInDB != null) {
-            return tripsInDB.get(id-1)
+            return tripsInDB.get(id)
         }
         return null
     }
@@ -73,7 +73,7 @@ class TripDetailsFragment : Fragment() {
         val mediaStorageDir: File = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
 
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.d("TAG", "failed to create directory")
+            Log.e("TAG", "Failed to create media storage directory!")
         }
         return mediaStorageDir.path + File.separator + fileName + ".jpg"
     }

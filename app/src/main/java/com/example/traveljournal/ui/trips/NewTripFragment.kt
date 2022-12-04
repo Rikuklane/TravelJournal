@@ -48,7 +48,7 @@ class NewTripFragment : Fragment() {
 
         //createdTimeEditText needed for image filename
         binding.buttonTakePhoto.setOnClickListener {
-            if (!binding.enterCountryEditText.text.isEmpty()){
+            if (binding.enterCountryEditText.text.isNotEmpty()){
                 openCameraButton()
             } else {
                 Toast.makeText(context, "Please enter country name first", Toast.LENGTH_SHORT).show()

@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentTripsBinding
 import com.example.traveljournal.room.trips.TripEntity
 
@@ -49,15 +51,6 @@ class TripsFragment : Fragment() {
     }
 
     /**
-     * Activity change: opens trip details view
-     */
-    private fun openTripDetailsFragment(trip: TripEntity) {
-        val intent = Intent(context, TripDetailsFragment::class.java)
-        intent.putExtra(TripDetailsFragment.EXTRA_TRIP_ID, trip.id)
-        startActivity(intent)
-    }
-
-    /**
      * sets up a recycler view for  trips
      */
     private fun setupRecyclerView() {
@@ -68,9 +61,18 @@ class TripsFragment : Fragment() {
     }
 
     /**
+     * Activity change: opens trip details view
+     */
+    private fun openTripDetailsFragment(trip: TripEntity) {
+        val bundle = Bundle()
+        bundle.putInt(TripDetailsFragment.EXTRA_TRIP_ID, trip.id)
+        findNavController().navigate(R.id.action_openTripDetailsFragment, bundle)
+    }
+
+    /**
      * Activity change: allows the user to enter a new trip to the database
      */
     private fun openNewTripFragment() {
-        startActivity(Intent(context, NewTripFragment::class.java))
+        findNavController().navigate(R.id.action_openNewTripFragment)
     }
 }

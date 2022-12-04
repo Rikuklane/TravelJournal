@@ -9,7 +9,14 @@
         android:id="@+id/nav_trips"
         android:name="com.example.traveljournal.ui.trips.TripsFragment"
         android:label="@string/menu_trips"
-        tools:layout="@layout/fragment_trips" />
+        tools:layout="@layout/fragment_trips" >
+        <action
+            android:id="@+id/action_openTripDetailsFragment"
+            app:destination="@id/tripDetailsFragment" />
+        <action
+            android:id="@+id/action_openNewTripFragment"
+            app:destination="@id/newTripFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -28,5 +35,15 @@
         android:name="com.example.traveljournal.ui.documents.DocumentFragment"
         android:label="@string/menu_documents"
         tools:layout="@layout/fragment_document" />
+    <fragment
+        android:id="@+id/newTripFragment"
+        android:name="com.example.traveljournal.ui.trips.NewTripFragment"
+        android:label="fragment_new_trip"
+        tools:layout="@layout/fragment_new_trip" />
+    <fragment
+        android:id="@+id/tripDetailsFragment"
+        android:name="com.example.traveljournal.ui.trips.TripDetailsFragment"
+        android:label="fragment_trip_details"
+        tools:layout="@layout/fragment_trip_details" />
 
 </navigation>
