@@ -3,25 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_trips">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.traveljournal.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_trips"
+        android:name="com.example.traveljournal.ui.trips.TripsFragment"
+        android:label="@string/menu_trips"
+        tools:layout="@layout/fragment_trips" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.traveljournal.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.traveljournal.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_packing"

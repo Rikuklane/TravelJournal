@@ -7,9 +7,22 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_trips">Trips</string>
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
     <string name="menu_documents">Documents</string>
     <string name="menu_packing">Packing List</string>
+
+    <string name="placeholder_country">Placeholder Country</string>
+    <string name="placeholder_dates">Placeholder Trip Dates</string>
+    <string name="placeholder_summary">Lorem Ipsum Dolor Sit Amet</string>
+
+    <string name="content_description_save_trip">Save Trip</string>
+    <string name="content_description_take_picture">Take Picture</string>
+    <string name="content_description_country_image">Image of country</string>
+
+    <string name="hint_trip_summary">Trip Summary</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_date">Dates</string>
+
+    <string name="new_trip">New Trip</string>
 </resources>
