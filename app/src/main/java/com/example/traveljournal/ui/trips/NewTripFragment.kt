@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentNewTripBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.trips.TripEntity
@@ -69,7 +71,9 @@ class NewTripFragment : Fragment() {
             val newTrip = getUserEnteredTrip()
             // Store them in DB
             if (newTrip != null){
+                //after saving the new trip, the view navigates back to all Trips
                 saveTripToDB(newTrip)
+                findNavController().navigate(R.id.action_backToAllTrips)
             } else {
                 Toast.makeText(context, "Some fields empty or date invalid", Toast.LENGTH_SHORT).show()
             }

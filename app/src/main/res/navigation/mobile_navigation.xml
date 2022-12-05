@@ -39,7 +39,11 @@
         android:id="@+id/newTripFragment"
         android:name="com.example.traveljournal.ui.trips.NewTripFragment"
         android:label="fragment_new_trip"
-        tools:layout="@layout/fragment_new_trip" />
+        tools:layout="@layout/fragment_new_trip" >
+        <action
+            android:id="@+id/action_backToAllTrips"
+            app:destination="@id/nav_trips" />
+    </fragment>
     <fragment
         android:id="@+id/tripDetailsFragment"
         android:name="com.example.traveljournal.ui.trips.TripDetailsFragment"
