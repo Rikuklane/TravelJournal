@@ -50,8 +50,8 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="369dp"
-        android:layout_height="370dp"
+        android:layout_width="343dp"
+        android:layout_height="331dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -68,7 +68,7 @@
 
             <TextView
                 android:id="@+id/detailsTripSummary"
-                android:layout_width="334dp"
+                android:layout_width="319dp"
                 android:layout_height="346dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
@@ -76,8 +76,49 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
                 android:text="@string/placeholder_summary" />
+
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_editTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:contentDescription="@string/new_trip"
+        android:focusable="true"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_changeDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_edit"
+        android:visibility="invisible"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/button_editTrip"
+        app:layout_constraintEnd_toEndOf="@+id/button_editTrip" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_deleteTrip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_delete"
+        android:visibility="invisible"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/button_changeDetails"
+        app:layout_constraintEnd_toEndOf="@+id/button_changeDetails" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
