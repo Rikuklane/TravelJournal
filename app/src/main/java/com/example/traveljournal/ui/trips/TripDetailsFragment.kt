@@ -12,6 +12,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentTripDetailsBinding
 import com.example.traveljournal.room.LocalDB
@@ -52,9 +53,22 @@ class TripDetailsFragment : Fragment() {
             Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
         }
         binding.buttonDeleteTrip.setOnClickListener{
-            Toast.makeText(context, "Delete button clicked!", Toast.LENGTH_SHORT).show()
+            //delete trip from database and return to main view
+            val id = arguments?.getInt(EXTRA_TRIP_ID)
+            val loadedTrip = id?.let { getTripFromDB(it) }
+            deleteTripFromDB(loadedTrip)
+            findNavController().navigate(R.id.action_fromDetailsToMain)
+            //Toast.makeText(context, "Delete button clicked!", Toast.LENGTH_SHORT).show()
         }
         return root
+    }
+
+    private fun deleteTripFromDB(loadedTrip: TripEntity?) {
+        context?.let {
+            if (loadedTrip != null) {
+                LocalDB.getInstance(it).getTripDAO().deleteTrips(loadedTrip)
+            }
+        }
     }
 
     private fun onEditTripClick() {
@@ -87,7 +101,7 @@ class TripDetailsFragment : Fragment() {
     }
 
     /**
-     * Button animation:
+     * Button animation
      */
     private fun setClickable(clicked: Boolean) {
         if(!clicked) {

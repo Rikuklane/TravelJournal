@@ -1,9 +1,6 @@
 package com.example.traveljournal.room.trips
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TripsDAO {
@@ -12,5 +9,9 @@ interface TripsDAO {
     fun loadTrips(): Array<TripEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTrips(vararg recipes: TripEntity)
+    fun insertTrips(vararg trips: TripEntity)
+
+    @Delete
+    fun deleteTrips(vararg trips: TripEntity)
+
 }
