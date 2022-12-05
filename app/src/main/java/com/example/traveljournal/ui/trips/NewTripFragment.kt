@@ -48,7 +48,7 @@ class NewTripFragment : Fragment() {
 
         setupSaveButton()
 
-        //createdTimeEditText needed for image filename
+        //countryName is needed for image filename
         binding.buttonTakePhoto.setOnClickListener {
             if (binding.enterCountryEditText.text.isNotEmpty()){
                 openCameraButton()

@@ -53,7 +53,7 @@ class TripDetailsFragment : Fragment() {
     private fun getTripFromDB(id: Int): TripEntity? {
         val tripsInDB = context?.let { LocalDB.getInstance(it).getTripDAO().loadTrips() }
         if (tripsInDB != null) {
-            return tripsInDB.get(id)
+            return tripsInDB.get(id-1)
         }
         return null
     }
