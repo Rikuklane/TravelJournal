@@ -19,10 +19,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.traveljournal.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_map"
+        android:name="com.example.traveljournal.ui.map.MapFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_packing"
