@@ -44,6 +44,7 @@ class TripDetailsFragment : Fragment() {
         loadAndShowTrip()
 
         // setup buttons
+        setupOpenOptionsButton()
         setupEditButton()
         setupDeleteButton()
 
@@ -61,10 +62,12 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun setupOpenOptionsButton() {
-        setVisibility(clicked)
-        setAnimation(clicked)
-        setClickable(clicked)
-        clicked = !clicked
+        binding.buttonOpenOptions.setOnClickListener {
+            setVisibility(clicked)
+            setAnimation(clicked)
+            setClickable(clicked)
+            clicked = !clicked
+        }
     }
 
     private fun setupDeleteButton() {
