@@ -1,10 +1,7 @@
 package com.example.traveljournal.ui.trips
 
-import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,6 @@ import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentTripDetailsBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.trips.TripEntity
-import java.io.File
 
 class TripDetailsFragment : Fragment() {
 
@@ -60,12 +56,15 @@ class TripDetailsFragment : Fragment() {
 
     private fun setupEditButton() {
         binding.buttonEditTrip.setOnClickListener {
-            setVisibility(clicked)
-            setAnimation(clicked)
-            setClickable(clicked)
-            clicked = !clicked
             Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun setupOpenOptionsButton() {
+        setVisibility(clicked)
+        setAnimation(clicked)
+        setClickable(clicked)
+        clicked = !clicked
     }
 
     private fun setupDeleteButton() {
@@ -73,7 +72,6 @@ class TripDetailsFragment : Fragment() {
             //delete trip from database and return to main view
             deleteTripFromDB()
             findNavController().navigate(R.id.action_fromDetailsToMain)
-            Toast.makeText(context, "Delete button clicked!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -82,22 +80,22 @@ class TripDetailsFragment : Fragment() {
     //  - the same goes for other similar functions
     private fun setAnimation(clicked: Boolean) {
         if(!clicked){
-            binding.buttonChangeDetails.startAnimation(fromBottom)
+            binding.buttonEditTrip.startAnimation(fromBottom)
             binding.buttonDeleteTrip.startAnimation(fromBottom)
-            binding.buttonEditTrip.startAnimation(rotateOpen)
+            binding.buttonOpenOptions.startAnimation(rotateOpen)
         } else {
-            binding.buttonChangeDetails.startAnimation(toBottom)
+            binding.buttonEditTrip.startAnimation(toBottom)
             binding.buttonDeleteTrip.startAnimation(toBottom)
-            binding.buttonEditTrip.startAnimation(rotateClose)
+            binding.buttonOpenOptions.startAnimation(rotateClose)
         }
     }
 
     private fun setVisibility(clicked: Boolean) {
         if(!clicked) {
-            binding.buttonChangeDetails.visibility = View.VISIBLE
+            binding.buttonEditTrip.visibility = View.VISIBLE
             binding.buttonDeleteTrip.visibility = View.VISIBLE
         } else {
-            binding.buttonChangeDetails.visibility = View.INVISIBLE
+            binding.buttonEditTrip.visibility = View.INVISIBLE
             binding.buttonDeleteTrip.visibility = View.INVISIBLE
         }
     }
@@ -107,10 +105,10 @@ class TripDetailsFragment : Fragment() {
      */
     private fun setClickable(clicked: Boolean) {
         if(!clicked) {
-            binding.buttonChangeDetails.isClickable = true
+            binding.buttonEditTrip.isClickable = true
             binding.buttonDeleteTrip.isClickable = true
         } else {
-            binding.buttonChangeDetails.isClickable = false
+            binding.buttonEditTrip.isClickable = false
             binding.buttonDeleteTrip.isClickable = false
         }
     }
@@ -147,14 +145,5 @@ class TripDetailsFragment : Fragment() {
                 binding.detailsImageView.setImageBitmap(BitmapFactory.decodeFile(this.image))
             }
         }
-    }
-
-    private fun getFile(context: Context, fileName: String): String {
-        val mediaStorageDir: File = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            Log.e("TAG", "Failed to create media storage directory!")
-        }
-        return mediaStorageDir.path + File.separator + fileName + ".jpg"
     }
 }
