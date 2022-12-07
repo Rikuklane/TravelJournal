@@ -2,11 +2,9 @@ package com.example.traveljournal.ui.map
 
 import android.Manifest
 import android.app.Dialog
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -21,7 +19,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.traveljournal.R
@@ -74,7 +71,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
 
     fun handlePermissions(mMap: GoogleMap) {
         val fineLocPermission = ContextCompat.checkSelfPermission(requireContext(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
         )
         //if the permission is already granted
         if (fineLocPermission == PackageManager.PERMISSION_GRANTED) {
@@ -135,77 +132,75 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
             .load(
                 "https://en.wikipedia.org/w/api.php?action=query&&generator=geosearch&prop=coordinates|pageimages|description|info&&pithumbsize=400&ggsradius=500&ggslimit=10&format=json&ggscoord=" + location.latitude.toString() + "|" + location.longitude.toString()
             )
-        if (query != null) {
-            query.asJsonObject().setCallback { e, result ->
-                if (e != null) {
-                    Log.e("QueryResult", e.toString())
-                }
-                if (result == null) {
-                    Log.i("QueryResult", "Query ei saa tulemust kätte")
-                }
-                if (result != null) {
-                    Log.i("QueryResult", result.toString())
-
-                    //there should be 10 entries from around 500m of user location
-                    val pages = result.get("query").asJsonObject.get("pages").asJsonObject
-
-                    for (entry in pages.entrySet()) {
-                        val entryJsonObject = entry.value.asJsonObject
-
-                        //name of the point of interest
-                        val title = entryJsonObject.get("title").asString
-                        Log.i("title", title)
-                        titleList.add(title)
-
-                        //description of the PoI
-                        var description = ""
-                        if (entryJsonObject.get("description") != null) {
-                            description = entryJsonObject.get("description").asString
-                        }
-                        descriptionList.add(description)
-
-                        //wikipedia page id - used to open the wikipedia page from infowindow
-                        val pageId = entryJsonObject.get("pageid").asString
-                        idList.add(pageId)
-
-
-                        //coordinates of the point of interest
-                        val coordList = entryJsonObject.get("coordinates").asJsonArray
-                        val lat = coordList[0].asJsonObject.get("lat").asDouble
-                        val long = coordList[0].asJsonObject.get("lon").asDouble
-                        val latLng = LatLng(lat, long)
-                        coordinateList.add(latLng)
-
-
-                        //thumbnail of the point of interest
-                        var imageLink: String = ""
-                        /**
-                         * Enne oli NullPointerException mingitele objektidele, lisasin kiire paranduse et mul app käima ka läheks
-                         * parandada kui aega/muutub probleemiks
-                         */
-                        try {
-                            imageLink = entryJsonObject.get("thumbnail").asJsonObject.get("source").asString
-                            imageList.add(imageLink)
-                        } catch (e: NullPointerException) {
-                            Log.i("ImageException", "Image gives NullPointerException")
-                        }
-
-                        val marker =
-                            MyMarker(title, description, imageLink, pageId, false)
-                        markerList.add(marker)
-
-                        //adding a marker based on the queried info
-                        mMap.addMarker(MarkerOptions().position(latLng).title(title))
-                    }
-                }
-
-                //for checking queried info
-                Log.i("Title List", titleList.toString())
-                Log.i("Description List", descriptionList.toString())
-                Log.i("Page Id List", idList.toString())
-                Log.i("Coordinate List", coordinateList.toString())
-                Log.i("Image List", imageList.toString())
+        query?.asJsonObject()?.setCallback { e, result ->
+            if (e != null) {
+                Log.e("QueryResult", e.toString())
             }
+            if (result == null) {
+                Log.i("QueryResult", "Query ei saa tulemust kätte")
+            }
+            if (result != null) {
+                Log.i("QueryResult", result.toString())
+
+                //there should be 10 entries from around 500m of user location
+                val pages = result.get("query").asJsonObject.get("pages").asJsonObject
+
+                for (entry in pages.entrySet()) {
+                    val entryJsonObject = entry.value.asJsonObject
+
+                    //name of the point of interest
+                    val title = entryJsonObject.get("title").asString
+                    Log.i("title", title)
+                    titleList.add(title)
+
+                    //description of the PoI
+                    var description = ""
+                    if (entryJsonObject.get("description") != null) {
+                        description = entryJsonObject.get("description").asString
+                    }
+                    descriptionList.add(description)
+
+                    //wikipedia page id - used to open the wikipedia page from infowindow
+                    val pageId = entryJsonObject.get("pageid").asString
+                    idList.add(pageId)
+
+
+                    //coordinates of the point of interest
+                    val coordList = entryJsonObject.get("coordinates").asJsonArray
+                    val lat = coordList[0].asJsonObject.get("lat").asDouble
+                    val long = coordList[0].asJsonObject.get("lon").asDouble
+                    val latLng = LatLng(lat, long)
+                    coordinateList.add(latLng)
+
+
+                    //thumbnail of the point of interest
+                    var imageLink: String = ""
+                    /**
+                     * Enne oli NullPointerException mingitele objektidele, lisasin kiire paranduse et mul app käima ka läheks
+                     * parandada kui aega/muutub probleemiks
+                     */
+                    try {
+                        imageLink = entryJsonObject.get("thumbnail").asJsonObject.get("source").asString
+                        imageList.add(imageLink)
+                    } catch (e: NullPointerException) {
+                        Log.i("ImageException", "Image gives NullPointerException")
+                    }
+
+                    val marker =
+                        MyMarker(title, description, imageLink, pageId, false)
+                    markerList.add(marker)
+
+                    //adding a marker based on the queried info
+                    mMap.addMarker(MarkerOptions().position(latLng).title(title))
+                }
+            }
+
+            //for checking queried info
+            Log.i("Title List", titleList.toString())
+            Log.i("Description List", descriptionList.toString())
+            Log.i("Page Id List", idList.toString())
+            Log.i("Coordinate List", coordinateList.toString())
+            Log.i("Image List", imageList.toString())
         }
 
     }

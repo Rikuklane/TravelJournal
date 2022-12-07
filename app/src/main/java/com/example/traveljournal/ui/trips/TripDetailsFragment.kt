@@ -21,11 +21,12 @@ import java.io.File
 
 class TripDetailsFragment : Fragment() {
 
-    companion object { const val EXTRA_TRIP_ID = "tripId" }
-    private var _binding: FragmentTripDetailsBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private lateinit var trip : TripEntity
+    private var _binding: FragmentTripDetailsBinding? = null
+    companion object { const val EXTRA_TRIP_ID = "tripId" }
+
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     //for activity button animation
@@ -46,38 +47,39 @@ class TripDetailsFragment : Fragment() {
         //get trip ID and show it in the UI
         loadAndShowTrip()
 
-        binding.buttonEditTrip.setOnClickListener {
-            onEditTripClick()
-        }
-        binding.buttonChangeDetails.setOnClickListener{
-            Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
-        }
-        binding.buttonDeleteTrip.setOnClickListener{
-            //delete trip from database and return to main view
-            val id = arguments?.getInt(EXTRA_TRIP_ID)
-            val loadedTrip = id?.let { getTripFromDB(it) }
-            deleteTripFromDB(loadedTrip)
-            findNavController().navigate(R.id.action_fromDetailsToMain)
-            //Toast.makeText(context, "Delete button clicked!", Toast.LENGTH_SHORT).show()
-        }
+        // setup buttons
+        setupEditButton()
+        setupDeleteButton()
+
         return root
     }
 
-    private fun deleteTripFromDB(loadedTrip: TripEntity?) {
-        context?.let {
-            if (loadedTrip != null) {
-                LocalDB.getInstance(it).getTripDAO().deleteTrips(loadedTrip)
-            }
+    private fun deleteTripFromDB() {
+        LocalDB.getInstance(requireContext()).getTripDAO().deleteTrips(trip)
+    }
+
+    private fun setupEditButton() {
+        binding.buttonEditTrip.setOnClickListener {
+            setVisibility(clicked)
+            setAnimation(clicked)
+            setClickable(clicked)
+            clicked = !clicked
+            Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun onEditTripClick() {
-        setVisibility(clicked)
-        setAnimation(clicked)
-        setClickable(clicked)
-        clicked = !clicked
+    private fun setupDeleteButton() {
+        binding.buttonDeleteTrip.setOnClickListener{
+            //delete trip from database and return to main view
+            deleteTripFromDB()
+            findNavController().navigate(R.id.action_fromDetailsToMain)
+            Toast.makeText(context, "Delete button clicked!", Toast.LENGTH_SHORT).show()
+        }
     }
 
+    // TODO maybe should create a view model for this and put all the Live changes into the view model?
+    //  - the idea is to have data like in packingList viewModel
+    //  - the same goes for other similar functions
     private fun setAnimation(clicked: Boolean) {
         if(!clicked){
             binding.buttonChangeDetails.startAnimation(fromBottom)
@@ -120,28 +122,30 @@ class TripDetailsFragment : Fragment() {
 
     private fun loadAndShowTrip() {
         // Get trip ID from arguments, load trip details from DB and show it in the UI
-        val id = arguments?.getInt(EXTRA_TRIP_ID)
+        val id = arguments?.getLong(EXTRA_TRIP_ID)
 
-        val loadedTrip = id?.let { getTripFromDB(it) }
-        loadedTrip?.let { showTrip(it) }
-    }
-
-    private fun getTripFromDB(id: Int): TripEntity? {
-        val tripsInDB = context?.let { LocalDB.getInstance(it).getTripDAO().loadTrips() }
-        if (tripsInDB != null) {
-            return tripsInDB.get(id-1)
+        if (id != null) {
+            getTripFromDB(id)
+            showTrip()
         }
-        return null
     }
 
-    private fun showTrip(trip: TripEntity) {
-        val bmp = BitmapFactory.decodeFile(context?.let { getFile(it, trip.country.toString()) })
+    private fun getTripFromDB(id: Long){
+        val trips = LocalDB.getInstance(requireContext()).getTripDAO().loadTrips()
+        trip = trips.find { t -> id == t.id}!!
+    }
+
+    private fun showTrip() {
+
         trip.apply {
             //TODO: create an xml file and assign values to textviews etc
-            binding.detailsCountryTextView.text = country
-            binding.detailsTripDates.text = dates
-            binding.detailsTripSummary.text = summary
-            binding.detailsImageView.setImageBitmap(bmp)
+            binding.detailsCountryTextView.text = this.country
+            binding.detailsTripSummary.text = this.summary
+            binding.detailsTripDates.text = this.dateFrom.toString()
+            binding.detailsTripDates.text = this.dateTo.toString()  // TODO add field to xml to hold 2 dates
+            if (this.image != "") {
+                binding.detailsImageView.setImageBitmap(BitmapFactory.decodeFile(this.image))
+            }
         }
     }
 

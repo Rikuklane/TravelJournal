@@ -37,7 +37,8 @@ class TripsAdapter(var data: Array<TripEntity> = arrayOf(), private var listener
 
         holder.itemView.apply {
             this.findViewById<TextView>(R.id.countryTextView).text = trip.country
-            this.findViewById<TextView>(R.id.datesTextView).text = trip.dates
+            this.findViewById<TextView>(R.id.datesTextView).text = trip.dateFrom.toString()
+            this.findViewById<TextView>(R.id.datesTextView).text = trip.dateTo.toString() // TODO add field to xml to hold 2 dates
             this.findViewById<ImageView>(R.id.countryImageView).setImageBitmap(bmp)
             setOnClickListener { listener.onTripClick(trip) }
         }

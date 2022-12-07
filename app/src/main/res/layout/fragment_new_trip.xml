@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:text="@string/new_trip"
         android:textSize="16sp"
@@ -24,32 +24,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
+        android:hint="@string/hint_country"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:hint="@string/hint_country"
+        app:layout_constraintBottom_toTopOf="@+id/editFromDate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newTripTitleText"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/newTripTitleText" />
 
     <EditText
-        android:id="@+id/enterDatesEditText"
-        android:layout_width="wrap_content"
+        android:id="@+id/editFromDate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="@string/hint_date_from"
+        android:inputType="date"
         android:minHeight="48dp"
-        android:hint="@string/hint_date"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editToDate"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText" />
+
+    <EditText
+        android:id="@+id/editToDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:ems="10"
+        android:hint="@string/hint_date_to"
+        android:inputType="date"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editFromDate"
+        app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText" />
 
     <ImageView
         android:id="@+id/tripImageView"
@@ -58,11 +75,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
+        android:contentDescription="@string/content_description_country_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterDatesEditText"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/content_description_country_image" />
+        app:layout_constraintTop_toBottomOf="@+id/editToDate"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_save"
@@ -79,8 +96,8 @@
 
     <EditText
         android:id="@+id/tripSummaryEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
@@ -88,12 +105,13 @@
         android:gravity="start|top"
         android:hint="@string/hint_trip_summary"
         android:inputType="textMultiLine"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tripImageView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_take_photo"
+        android:id="@+id/button_open_camera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

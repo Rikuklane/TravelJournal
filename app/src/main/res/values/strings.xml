@@ -22,7 +22,8 @@
 
     <string name="hint_trip_summary">Trip Summary</string>
     <string name="hint_country">Country</string>
-    <string name="hint_date">Dates</string>
+    <string name="hint_date_from">From (DD/MM/YYYY)</string>
+    <string name="hint_date_to">To (DD/MM/YYYY)</string>
 
     <string name="new_trip">New Trip</string>
 </resources>
