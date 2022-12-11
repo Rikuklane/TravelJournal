@@ -35,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.koushikdutta.ion.Ion
 
 
-class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener  {
+class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickListener {
 
     private lateinit var mMap: GoogleMap
     private lateinit var locationHelper: LocationHelper
@@ -70,7 +70,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
         } //permissionLauncher
 
     fun handlePermissions(mMap: GoogleMap) {
-        val fineLocPermission = ContextCompat.checkSelfPermission(requireContext(),
+        val fineLocPermission = ContextCompat.checkSelfPermission(
+            requireContext(),
             Manifest.permission.ACCESS_FINE_LOCATION
         )
         //if the permission is already granted
@@ -126,82 +127,86 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
         imageList.clear()
         idList.clear()
 
-        val query = Ion.with(this)
+
+        Ion.with(this)
             //queries based on the https. the query is adapted to the current location of the user
             //max radius 500m and 10 queries is the default
             .load(
                 "https://en.wikipedia.org/w/api.php?action=query&&generator=geosearch&prop=coordinates|pageimages|description|info&&pithumbsize=400&ggsradius=500&ggslimit=10&format=json&ggscoord=" + location.latitude.toString() + "|" + location.longitude.toString()
-            )
-        query?.asJsonObject()?.setCallback { e, result ->
-            if (e != null) {
-                Log.e("QueryResult", e.toString())
-            }
-            if (result == null) {
-                Log.i("QueryResult", "Query ei saa tulemust kätte")
-            }
-            if (result != null) {
-                Log.i("QueryResult", result.toString())
+            ).asJsonObject()?.setCallback { e, result ->
+                if (e != null) {
+                    Log.e("QueryResult", e.toString())
+                }
+                if (result == null) {
+                    Log.i("QueryResult", "Query ei saa tulemust kätte")
+                }
+                if (result.get("query") != null ) {
+                    Log.i("QueryResult", result.toString())
 
-                //there should be 10 entries from around 500m of user location
-                val pages = result.get("query").asJsonObject.get("pages").asJsonObject
+                    //there should be 10 entries from around 500m of user location
+                    val pages = result.get("query").asJsonObject.get("pages").asJsonObject
 
-                for (entry in pages.entrySet()) {
-                    val entryJsonObject = entry.value.asJsonObject
+                    for (entry in pages.entrySet()) {
+                        val entryJsonObject = entry.value.asJsonObject
 
-                    //name of the point of interest
-                    val title = entryJsonObject.get("title").asString
-                    Log.i("title", title)
-                    titleList.add(title)
+                        //name of the point of interest
+                        val title = entryJsonObject.get("title").asString
+                        Log.i("title", title)
+                        titleList.add(title)
 
-                    //description of the PoI
-                    var description = ""
-                    if (entryJsonObject.get("description") != null) {
-                        description = entryJsonObject.get("description").asString
+                        //description of the PoI
+                        var description = ""
+                        if (entryJsonObject.get("description") != null) {
+                            description = entryJsonObject.get("description").asString
+                        }
+                        descriptionList.add(description)
+
+                        //wikipedia page id - used to open the wikipedia page from infowindow
+                        val pageId = entryJsonObject.get("pageid").asString
+                        idList.add(pageId)
+
+
+                        //coordinates of the point of interest
+                        val coordList = entryJsonObject.get("coordinates").asJsonArray
+                        val lat = coordList[0].asJsonObject.get("lat").asDouble
+                        val long = coordList[0].asJsonObject.get("lon").asDouble
+                        val latLng = LatLng(lat, long)
+                        coordinateList.add(latLng)
+
+
+                        //thumbnail of the point of interest
+                        var imageLink: String = ""
+                        /**
+                         * Enne oli NullPointerException mingitele objektidele, lisasin kiire paranduse et mul app käima ka läheks
+                         * parandada kui aega/muutub probleemiks
+                         */
+                        try {
+                            imageLink =
+                                entryJsonObject.get("thumbnail").asJsonObject.get("source").asString
+                            imageList.add(imageLink)
+                        } catch (e: NullPointerException) {
+                            Log.i("ImageException", "Image gives NullPointerException")
+                        }
+
+                        val marker =
+                            MyMarker(title, description, imageLink, pageId, false)
+                        markerList.add(marker)
+
+                        //adding a marker based on the queried info
+                        mMap.addMarker(MarkerOptions().position(latLng).title(title))
                     }
-                    descriptionList.add(description)
-
-                    //wikipedia page id - used to open the wikipedia page from infowindow
-                    val pageId = entryJsonObject.get("pageid").asString
-                    idList.add(pageId)
-
-
-                    //coordinates of the point of interest
-                    val coordList = entryJsonObject.get("coordinates").asJsonArray
-                    val lat = coordList[0].asJsonObject.get("lat").asDouble
-                    val long = coordList[0].asJsonObject.get("lon").asDouble
-                    val latLng = LatLng(lat, long)
-                    coordinateList.add(latLng)
-
-
-                    //thumbnail of the point of interest
-                    var imageLink: String = ""
-                    /**
-                     * Enne oli NullPointerException mingitele objektidele, lisasin kiire paranduse et mul app käima ka läheks
-                     * parandada kui aega/muutub probleemiks
-                     */
-                    try {
-                        imageLink = entryJsonObject.get("thumbnail").asJsonObject.get("source").asString
-                        imageList.add(imageLink)
-                    } catch (e: NullPointerException) {
-                        Log.i("ImageException", "Image gives NullPointerException")
-                    }
-
-                    val marker =
-                        MyMarker(title, description, imageLink, pageId, false)
-                    markerList.add(marker)
-
-                    //adding a marker based on the queried info
-                    mMap.addMarker(MarkerOptions().position(latLng).title(title))
+                } else {
+                    Toast.makeText(context, "There is nothing interesting nearby!", Toast.LENGTH_LONG).show()
                 }
             }
 
-            //for checking queried info
-            Log.i("Title List", titleList.toString())
-            Log.i("Description List", descriptionList.toString())
-            Log.i("Page Id List", idList.toString())
-            Log.i("Coordinate List", coordinateList.toString())
-            Log.i("Image List", imageList.toString())
-        }
+        //for checking queried info
+        Log.i("Title List", titleList.toString())
+        Log.i("Description List", descriptionList.toString())
+        Log.i("Page Id List", idList.toString())
+        Log.i("Coordinate List", coordinateList.toString())
+        Log.i("Image List", imageList.toString())
+
 
     }
 
@@ -242,6 +247,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
         super.onPause()
         locationHelper.stopLocationUpdates()
     }
+
     //to check if gps location is enabled
     var gpsStatus: Boolean = false
     private fun locationEnabled() {
@@ -261,9 +267,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
         mMap.setOnMyLocationButtonClickListener {
             locationEnabled()
             if (!gpsStatus) { //if location is not enabled
-                Toast.makeText(context,
+                Toast.makeText(
+                    context,
                     "Please turn on location to use the app!",
-                    Toast.LENGTH_LONG).show()
+                    Toast.LENGTH_LONG
+                ).show()
             } else {
                 locationHelper.requestLocationUpdates(locationCallback)
             }
