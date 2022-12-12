@@ -12,7 +12,7 @@ import com.example.traveljournal.room.trips.TripEntity
 import com.example.traveljournal.room.trips.TripsDAO
 
 @TypeConverters(DateTypeConverter::class)
-@Database(entities = [ TripEntity::class , DocumentEntity::class], version = 1, exportSchema = false)
+@Database(entities = [ TripEntity::class , DocumentEntity::class], version = 2, exportSchema = false)
 abstract class LocalDB : RoomDatabase() {
     companion object {
         private lateinit var TripDB : LocalDB
