@@ -39,9 +39,9 @@ class TripsAdapter(var data: Array<TripEntity> = arrayOf(), private var listener
         holder.itemView.apply {
             // TODO add field to xml to hold 2 dates
             val date = trip.dateFrom.toString() + " - " + trip.dateTo.toString()
-            this.findViewById<TextView>(R.id.countryTextView).text = trip.country
+            this.findViewById<TextView>(R.id.docTypeTextView).text = trip.country
             //this.findViewById<TextView>(R.id.datesTextView).text = trip.dateFrom.toString()
-            this.findViewById<TextView>(R.id.datesTextView).text = date
+            this.findViewById<TextView>(R.id.docExpirationTextView).text = date
             setOnClickListener { listener.onTripClick(trip) }
         }
 

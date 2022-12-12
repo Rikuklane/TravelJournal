@@ -52,7 +52,7 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun deleteTripFromDB() {
-        LocalDB.getInstance(requireContext()).getTripDAO().deleteTrips(trip)
+        LocalDB.getTripsInstance(requireContext()).getTripDAO().deleteTrips(trip)
     }
 
     private fun setupEditButton() {
@@ -132,7 +132,7 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun getTripFromDB(id: Long){
-        val trips = LocalDB.getInstance(requireContext()).getTripDAO().loadTrips()
+        val trips = LocalDB.getTripsInstance(requireContext()).getTripDAO().loadTrips()
         trip = trips.find { t -> id == t.id}!!
     }
 

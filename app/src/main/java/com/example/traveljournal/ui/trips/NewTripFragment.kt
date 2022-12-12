@@ -156,7 +156,7 @@ class NewTripFragment : Fragment() {
     }
 
     private fun saveTripToDB(newTrip: TripEntity) {
-        context?.let { LocalDB.getInstance(it).getTripDAO().insertTrips(newTrip) }
+        context?.let { LocalDB.getTripsInstance(it).getTripDAO().insertTrips(newTrip) }
     }
 
     private fun getUserEnteredTrip(): TripEntity? {

@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.trips.TripEntity
 
@@ -20,7 +17,7 @@ class TripViewModel(val app: Application) : AndroidViewModel(app) {
      */
     @SuppressLint("NotifyDataSetChanged")
     fun refresh(tripsAdapter: TripsAdapter) {
-        val db = LocalDB.getInstance(app)
+        val db = LocalDB.getTripsInstance(app)
         try {
             tripArray = db.getTripDAO().loadTrips()
             tripsAdapter.notifyDataSetChanged()
