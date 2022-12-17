@@ -22,6 +22,7 @@
     <string name="content_description_save_trip">Save Trip</string>
     <string name="content_description_take_picture">Take Picture</string>
     <string name="content_description_country_image">Image of country</string>
+    <string name="content_description_save_edited_doc">Save Edited Document</string>
 
     <string name="hint_trip_summary">Trip Summary</string>
     <string name="hint_country">Country</string>
@@ -29,6 +30,14 @@
     <string name="hint_date_to">To (DD/MM/YYYY)</string>
 
     <string name="new_trip">New Trip</string>
+
+    <string name="doc_options">Document Options</string>
+    <string name="deleteDocBtn">Delete</string>
+    <string name="editDocBtn">Edit</string>
+
+    <string name="editDocTitleText">Edit Document</string>
+    <string name="newDocType">Document Type</string>
+    <string name="newDocDate">Document Expiry Date</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

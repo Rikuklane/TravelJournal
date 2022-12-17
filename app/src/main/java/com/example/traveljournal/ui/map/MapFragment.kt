@@ -97,12 +97,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        /**
-         * val textView: TextView = binding.textGallery
-        mapViewModel.text.observe(viewLifecycleOwner) {
-        textView.text = it
-        }
-         */
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 

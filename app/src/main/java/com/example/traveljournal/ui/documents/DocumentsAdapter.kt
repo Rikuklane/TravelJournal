@@ -12,9 +12,12 @@ import com.example.traveljournal.room.documents.DocumentEntity
 import com.example.traveljournal.room.trips.TripEntity
 import com.example.traveljournal.ui.trips.TripsAdapter
 
-class DocumentsAdapter(var data: Array<DocumentEntity> = arrayOf())
+class DocumentsAdapter(var data: Array<DocumentEntity> = arrayOf(), private var listener: DocumentsAdapter.DocumentClickListener)
     : RecyclerView.Adapter<DocumentsAdapter.DocumentViewHolder>() {
 
+    fun interface DocumentClickListener{
+        fun onDocumentClick(document: DocumentEntity)
+    }
     inner class DocumentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentsAdapter.DocumentViewHolder {
@@ -30,6 +33,7 @@ class DocumentsAdapter(var data: Array<DocumentEntity> = arrayOf())
         holder.itemView.apply {
             this.findViewById<TextView>(R.id.docTypeTextView).text = document.type
             this.findViewById<TextView>(R.id.docExpirationTextView).text = document.expiration.toString()
+            setOnClickListener { listener.onDocumentClick(document) }
         }
 
     }
