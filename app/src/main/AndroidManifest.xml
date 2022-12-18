@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+
     <application
         android:enableOnBackInvokedCallback="true"
         android:allowBackup="true"
@@ -37,6 +39,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
+        <receiver
+            android:name=".Notification"
+            android:enabled="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
