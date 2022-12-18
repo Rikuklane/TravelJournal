@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">TravelPad</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">TravelPad</string>
+    <string name="nav_header_subtitle">Manage your travels</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_trips">Trips</string>
+    <string name="menu_sightseeing_map">Sightseeing Map</string>
+    <string name="menu_documents">Documents</string>
+    <string name="menu_packing">Packing List</string>
+    <string name="new_packing">New Packing</string>
+
+    <string name="placeholder_country">Placeholder Country</string>
+    <string name="placeholder_packing">Placeholder Packing</string>
+    <string name="placeholder_dates">Placeholder Trip Dates</string>
+    <string name="placeholder_summary">Lorem Ipsum Dolor Sit Amet</string>
+
+    <string name="placeholder_docType">Placeholder Document Type</string>
+    <string name="placeholder_docExpiration">Placeholder Document Expiration</string>
+
+    <string name="content_description_save_trip">Save Trip</string>
+    <string name="content_description_take_picture">Take Picture</string>
+    <string name="content_description_country_image">Image of country</string>
+
+    <string name="hint_trip_summary">Trip Summary</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_packing">Item</string>
+    <string name="hint_date_from">From (DD/MM/YYYY)</string>
+    <string name="hint_date_to">To (DD/MM/YYYY)</string>
+
+    <string name="new_trip">New Trip</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="checkbox">Checkbox</string>
+</resources>
