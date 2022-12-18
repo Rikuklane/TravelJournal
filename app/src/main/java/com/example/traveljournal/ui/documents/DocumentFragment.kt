@@ -87,6 +87,12 @@ class DocumentFragment : Fragment() {
             dialog.dismiss()
         }
 
+        val cancelBtn: Button = dialog.findViewById(R.id.cancelBtn)
+
+        cancelBtn.setOnClickListener() {
+            dialog.dismiss()
+        }
+
         deleteBtn.setOnClickListener() {
             LocalDB.getDocumentsInstance(requireContext()).getDocumentDAO().deleteDocument(doc)
             model.refresh(documentsAdapter)

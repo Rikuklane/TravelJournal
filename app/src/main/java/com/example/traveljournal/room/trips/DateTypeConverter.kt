@@ -10,3 +10,4 @@ class DateTypeConverter {
     @TypeConverter
     fun fromDate(date: Date?) = date?.time ?: Calendar.getInstance().timeInMillis
 }
+
