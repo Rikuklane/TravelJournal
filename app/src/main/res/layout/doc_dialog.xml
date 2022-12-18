@@ -12,21 +12,21 @@
         android:layout_marginBottom="10dp"
         android:text="@string/editDocBtn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteDocBtn"
+        app:layout_constraintEnd_toStartOf="@+id/cancelBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/deleteDocBtn" />
 
     <Button
         android:id="@+id/deleteDocBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/deleteDocBtn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cancelBtn"
+        app:layout_constraintEnd_toStartOf="@+id/editDocBtn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editDocBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/doc_options_title"
@@ -46,10 +46,12 @@
         android:id="@+id/cancelBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/cancelBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/deleteDocBtn" />
+        app:layout_constraintStart_toEndOf="@+id/editDocBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
