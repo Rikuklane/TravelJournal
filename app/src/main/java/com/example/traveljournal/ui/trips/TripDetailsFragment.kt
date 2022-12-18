@@ -1,6 +1,5 @@
 package com.example.traveljournal.ui.trips
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +9,19 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentTripDetailsBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.trips.TripEntity
+import java.text.SimpleDateFormat
 
 class TripDetailsFragment : Fragment() {
 
 
     private lateinit var trip : TripEntity
     private var _binding: FragmentTripDetailsBinding? = null
+    private lateinit var tripsAdapter: TripGalleryAdapter
     companion object { const val EXTRA_TRIP_ID = "tripId" }
 
     // This property is only valid between onCreateView and onDestroyView.
@@ -47,6 +49,7 @@ class TripDetailsFragment : Fragment() {
         setupOpenOptionsButton()
         setupEditButton()
         setupDeleteButton()
+        setupRecyclerView()
 
         return root
     }
@@ -57,8 +60,16 @@ class TripDetailsFragment : Fragment() {
 
     private fun setupEditButton() {
         binding.buttonEditTrip.setOnClickListener {
-            Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putLong(NewTripFragment.ID, trip.id)
+            findNavController().navigate(R.id.action_tripDetailsFragment_to_newTripFragment, bundle)
         }
+    }
+
+    private fun setupRecyclerView() {
+        tripsAdapter = trip.images?.let { TripGalleryAdapter(it.split(",")) }!! //Initialize adapter
+        binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false) //Gives layout
     }
 
     private fun setupOpenOptionsButton() {
@@ -139,14 +150,12 @@ class TripDetailsFragment : Fragment() {
     private fun showTrip() {
 
         trip.apply {
-            //TODO: create an xml file and assign values to textviews etc
+            val formatter = SimpleDateFormat("dd.MMM yyyy")
             binding.detailsCountryTextView.text = this.country
             binding.detailsTripSummary.text = this.summary
-            binding.detailsTripDates.text = this.dateFrom.toString()
-            binding.detailsTripDates.text = this.dateTo.toString()  // TODO add field to xml to hold 2 dates
-            if (this.image != "") {
-                binding.detailsImageView.setImageBitmap(BitmapFactory.decodeFile(this.image))
-            }
+            binding.detailsTripsDateFrom.text = trip.dateFrom?.let { formatter.format(it) }
+            binding.detailsTripDateTo.text = trip.dateTo?.let { formatter.format(it) }
+
         }
     }
 }

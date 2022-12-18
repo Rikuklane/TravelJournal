@@ -18,14 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentTripsBinding
 import com.example.traveljournal.room.trips.TripEntity
+import java.util.*
 
 
-class TripsFragment : Fragment() {
+class FutureTripsFragment : Fragment() {
 
     private var _binding: FragmentTripsBinding? = null
     private lateinit var tripsAdapter: TripsAdapter
     private val model: TripViewModel by viewModels()
-    private val TAG = "TripsFragment"
+    private val TAG = "FutureTripsFragment"
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,7 +41,6 @@ class TripsFragment : Fragment() {
         val root: View = binding.root
 
         checkPermissionsAndSetupRecyclerView()
-        binding.buttonNewTrip.setOnClickListener{ openNewTripFragment() }
         return root
     }
 
@@ -52,8 +52,7 @@ class TripsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         model.refresh(tripsAdapter)
-        tripsAdapter.data = model.tripArray
-        // TODO check if necessary: tripsAdapter.notifyDataSetChanged()
+        tripsAdapter.data = futureTrips(model.tripArray)
     }
 
     /**
@@ -61,11 +60,22 @@ class TripsFragment : Fragment() {
      */
     private fun setupRecyclerView() {
         val tripClickListener = TripsAdapter.TripClickListener { p -> openTripDetailsFragment(p) }
-        tripsAdapter = TripsAdapter(model.tripArray, tripClickListener) //Initialize adapter
+        tripsAdapter = TripsAdapter(futureTrips(model.tripArray), tripClickListener) //Initialize adapter
         binding.recyclerviewTrips.adapter = tripsAdapter //Bind recyclerview to adapter
         binding.recyclerviewTrips.layoutManager = LinearLayoutManager(context) //Gives layout
     }
 
+    private fun futureTrips(trips: Array<TripEntity>): Array<TripEntity> {
+        val list = mutableListOf<TripEntity>()
+        val now = Date()
+        for (trip in trips){
+            if (trip.dateTo?.after(now) == true){
+                list.add(trip)
+            }
+        }
+        list.sortBy{it.dateFrom}
+        return list.toTypedArray()
+    }
     /**
      * Activity change: opens trip details view
      */
@@ -75,12 +85,6 @@ class TripsFragment : Fragment() {
         findNavController().navigate(R.id.action_openTripDetailsFragment, bundle)
     }
 
-    /**
-     * Activity change: allows the user to enter a new trip to the database
-     */
-    private fun openNewTripFragment() {
-        findNavController().navigate(R.id.action_openNewTripFragment)
-    }
 
     private fun checkPermissionsAndSetupRecyclerView(){
         if (checkStoragePermission()) {

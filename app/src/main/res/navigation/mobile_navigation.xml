@@ -3,20 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_trips">
-
-    <fragment
-        android:id="@+id/nav_trips"
-        android:name="com.example.traveljournal.ui.trips.TripsFragment"
-        android:label="@string/menu_trips"
-        tools:layout="@layout/fragment_trips" >
-        <action
-            android:id="@+id/action_openTripDetailsFragment"
-            app:destination="@id/tripDetailsFragment" />
-        <action
-            android:id="@+id/action_openNewTripFragment"
-            app:destination="@id/newTripFragment" />
-    </fragment>
+    app:startDestination="@id/nav_trips">
 
     <fragment
         android:id="@+id/nav_map"
@@ -39,6 +26,7 @@
             android:id="@+id/action_nav_newDocument"
             app:destination="@id/newDocumentFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/newTripFragment"
         android:name="com.example.traveljournal.ui.trips.NewTripFragment"
@@ -48,6 +36,7 @@
             android:id="@+id/action_backToAllTrips"
             app:destination="@id/nav_trips" />
     </fragment>
+
     <fragment
         android:id="@+id/tripDetailsFragment"
         android:name="com.example.traveljournal.ui.trips.TripDetailsFragment"
@@ -56,7 +45,11 @@
         <action
             android:id="@+id/action_fromDetailsToMain"
             app:destination="@id/nav_trips" />
+        <action
+            android:id="@+id/action_tripDetailsFragment_to_newTripFragment"
+            app:destination="@id/newTripFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/newDocumentFragment"
         android:name="com.example.traveljournal.ui.documents.NewDocumentFragment"
@@ -65,6 +58,18 @@
         <action
             android:id="@+id/action_backToAllDocs"
             app:destination="@id/nav_document" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_trips"
+        android:name="com.example.traveljournal.ui.trips.TripsParentFragment"
+        android:label="TripsParentFragment" >
+        <action
+            android:id="@+id/action_openTripDetailsFragment"
+            app:destination="@id/tripDetailsFragment" />
+        <action
+            android:id="@+id/action_openNewTripFragment"
+            app:destination="@id/newTripFragment" />
     </fragment>
 
 </navigation>

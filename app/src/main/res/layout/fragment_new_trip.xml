@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTripTitleText" />
 
-    <EditText
+    <Button
         android:id="@+id/editFromDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -44,15 +44,15 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="@string/hint_date_from"
-        android:inputType="date"
+        android:text="@string/hint_date_from"
         android:minHeight="48dp"
+        app:backgroundTint="@color/teal_200"
         app:layout_constraintEnd_toStartOf="@+id/editToDate"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText" />
 
-    <EditText
+    <Button
         android:id="@+id/editToDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -60,26 +60,24 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
-        android:hint="@string/hint_date_to"
-        android:inputType="date"
         android:minHeight="48dp"
+        android:text="@string/hint_date_from"
+        app:backgroundTint="@color/teal_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/editFromDate"
-        app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/enterCountryEditText"
+        app:rippleColor="@color/black" />
 
-    <ImageView
-        android:id="@+id/tripImageView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@string/content_description_country_image"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tripSummaryEditText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editToDate"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/editToDate" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_save"
@@ -99,16 +97,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/hint_trip_summary"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_open_camera"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tripImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_open_camera"
