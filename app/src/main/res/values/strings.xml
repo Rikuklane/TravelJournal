@@ -28,6 +28,7 @@
     <string name="hint_country">Country</string>
     <string name="hint_date_from">From (DD/MM/YYYY)</string>
     <string name="hint_date_to">To (DD/MM/YYYY)</string>
+    <string name = "edit_trip">Edit Trip</string>
 
     <string name="new_trip">New Trip</string>
 

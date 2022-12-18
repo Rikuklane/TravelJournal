@@ -57,7 +57,10 @@ class TripDetailsFragment : Fragment() {
 
     private fun setupEditButton() {
         binding.buttonEditTrip.setOnClickListener {
-            Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Edit Trip button clicked!", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putLong(EXTRA_TRIP_ID, trip.id)
+            findNavController().navigate(R.id.action_editTrip, bundle)
         }
     }
 

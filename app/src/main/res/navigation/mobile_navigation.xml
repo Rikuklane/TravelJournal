@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_fromDetailsToMain"
             app:destination="@id/nav_trips" />
+        <action
+            android:id="@+id/action_editTrip"
+            app:destination="@id/editTripFragment" />
     </fragment>
     <fragment
         android:id="@+id/newDocumentFragment"
@@ -77,6 +80,15 @@
         <action
             android:id="@+id/action_backToDocs"
             app:destination="@id/nav_document" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTripFragment"
+        android:name="com.example.traveljournal.ui.trips.EditTripFragment"
+        android:label="fragment_edit_trip"
+        tools:layout="@layout/fragment_edit_trip" >
+        <action
+            android:id="@+id/action_allTrips"
+            app:destination="@id/nav_trips" />
     </fragment>
 
 </navigation>
