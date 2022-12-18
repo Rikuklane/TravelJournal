@@ -51,10 +51,11 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.6.1"
 
     //A Rich Text Editor: to create a blog post in the New Trip View
-    implementation 'jp.wasabeef:richeditor-android:2.0.0'
+    // TODO implement editor
+    // implementation 'com.1gravity:android-rteditor:1.7.8'
 
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     implementation 'com.koushikdutta.ion:ion:3.1.0'
 
