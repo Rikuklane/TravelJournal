@@ -35,6 +35,7 @@
     <string name="doc_options">Document Options</string>
     <string name="deleteDocBtn">Delete</string>
     <string name="editDocBtn">Edit</string>
+    <string name="cancelBtn">Cancel</string>
 
     <string name="editDocTitleText">Edit Document</string>
     <string name="newDocType">Document Type</string>

@@ -15,7 +15,6 @@ import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentDocumentsBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.documents.DocumentEntity
-import com.example.traveljournal.ui.trips.TripDetailsFragment
 
 class DocumentFragment : Fragment() {
 
@@ -38,6 +37,7 @@ class DocumentFragment : Fragment() {
 
         _binding = FragmentDocumentsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
 
         setupRecyclerView()
         binding.buttonNewDocument.setOnClickListener{ openNewDocumentFragment() }
@@ -81,6 +81,11 @@ class DocumentFragment : Fragment() {
 
         val deleteBtn: Button = dialog.findViewById(R.id.deleteDocBtn)
         val editBtn: Button = dialog.findViewById((R.id.editDocBtn))
+        val cancelBtn: Button = dialog.findViewById(R.id.cancelBtn)
+
+        cancelBtn.setOnClickListener() {
+            dialog.dismiss()
+        }
 
         deleteBtn.setOnClickListener() {
             LocalDB.getDocumentsInstance(requireContext()).getDocumentDAO().deleteDocument(doc)
@@ -97,4 +102,6 @@ class DocumentFragment : Fragment() {
         }
         dialog.show()
     }
+
+
 }
