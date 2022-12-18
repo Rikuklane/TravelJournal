@@ -28,9 +28,11 @@
     <string name="hint_country">Destination</string>
     <string name="hint_date_from">From (DD/MM/YYYY)</string>
     <string name="hint_date_to">To (DD/MM/YYYY)</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
 
     <string name="new_trip">New Trip</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="packingList">Packinglist</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -121,5 +123,7 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="edit_trip">edit trip</string>
+    <string name="edit_trip">EDIT TRIP</string>
+    <string name="trip_details">Trip details</string>
+    <string name="packinglist_item">packinglistitem</string>
 </resources>

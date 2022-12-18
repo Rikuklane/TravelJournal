@@ -15,14 +15,20 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"/>
+            android:background="?attr/colorPrimary"
+            android:contentDescription="@string/app_name"
+            app:tabIconTint="@color/purple_500"
+            app:tabIndicatorColor="@color/white"
+            app:tabRippleColor="@color/purple_200"
+            app:tabTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:contentDescription="@string/app_name"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_new_trip"

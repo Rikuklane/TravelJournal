@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,19 +18,43 @@ import java.text.SimpleDateFormat
 class TripDetailsFragment : Fragment() {
 
 
-    private lateinit var trip : TripEntity
+    private lateinit var trip: TripEntity
     private var _binding: FragmentTripDetailsBinding? = null
     private lateinit var tripsAdapter: TripGalleryAdapter
-    companion object { const val EXTRA_TRIP_ID = "tripId" }
+    private lateinit var packinglistAdapter: PackingListAdapter
+
+    companion object {
+        const val EXTRA_TRIP_ID = "tripId"
+    }
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     //for activity button animation
-    private val rotateOpen: Animation by lazy {AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim)}
-    private val rotateClose: Animation by lazy {AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim)}
-    private val fromBottom: Animation by lazy {AnimationUtils.loadAnimation(context, R.anim.from_bottom_anim)}
-    private val toBottom: Animation by lazy {AnimationUtils.loadAnimation(context, R.anim.to_bottom_anim)}
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.from_bottom_anim
+        )
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            context,
+            R.anim.to_bottom_anim
+        )
+    }
     private var clicked = false
 
     override fun onCreateView(
@@ -49,7 +72,7 @@ class TripDetailsFragment : Fragment() {
         setupOpenOptionsButton()
         setupEditButton()
         setupDeleteButton()
-        setupRecyclerView()
+        setupRecyclerViews()
 
         return root
     }
@@ -66,10 +89,19 @@ class TripDetailsFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerViews() {
+        //images
         tripsAdapter = trip.images?.let { TripGalleryAdapter(it.split(",")) }!! //Initialize adapter
         binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false) //Gives layout
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) //Gives layout
+
+
+        //packinglist
+        packinglistAdapter = PackingListAdapter(trip.packingList!!)
+        binding.tripPackingList.adapter = packinglistAdapter //Bind recyclerview to adapter
+        binding.tripPackingList.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) //Gives layout
     }
 
     private fun setupOpenOptionsButton() {
@@ -82,7 +114,7 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun setupDeleteButton() {
-        binding.buttonDeleteTrip.setOnClickListener{
+        binding.buttonDeleteTrip.setOnClickListener {
             //delete trip from database and return to main view
             deleteTripFromDB()
             findNavController().navigate(R.id.action_fromDetailsToMain)
@@ -93,7 +125,7 @@ class TripDetailsFragment : Fragment() {
     //  - the idea is to have data like in packingList viewModel
     //  - the same goes for other similar functions
     private fun setAnimation(clicked: Boolean) {
-        if(!clicked){
+        if (!clicked) {
             binding.buttonEditTrip.startAnimation(fromBottom)
             binding.buttonDeleteTrip.startAnimation(fromBottom)
             binding.buttonOpenOptions.startAnimation(rotateOpen)
@@ -105,7 +137,7 @@ class TripDetailsFragment : Fragment() {
     }
 
     private fun setVisibility(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             binding.buttonEditTrip.visibility = View.VISIBLE
             binding.buttonDeleteTrip.visibility = View.VISIBLE
         } else {
@@ -118,7 +150,7 @@ class TripDetailsFragment : Fragment() {
      * Button animation
      */
     private fun setClickable(clicked: Boolean) {
-        if(!clicked) {
+        if (!clicked) {
             binding.buttonEditTrip.isClickable = true
             binding.buttonDeleteTrip.isClickable = true
         } else {
@@ -142,9 +174,9 @@ class TripDetailsFragment : Fragment() {
         }
     }
 
-    private fun getTripFromDB(id: Long){
+    private fun getTripFromDB(id: Long) {
         val trips = LocalDB.getTripsInstance(requireContext()).getTripDAO().loadTrips()
-        trip = trips.find { t -> id == t.id}!!
+        trip = trips.find { t -> id == t.id }!!
     }
 
     private fun showTrip() {
@@ -155,7 +187,13 @@ class TripDetailsFragment : Fragment() {
             binding.detailsTripSummary.text = this.summary
             binding.detailsTripsDateFrom.text = trip.dateFrom?.let { formatter.format(it) }
             binding.detailsTripDateTo.text = trip.dateTo?.let { formatter.format(it) }
-
         }
+    }
+
+    private fun packingListRecyclerview() {
+        tripsAdapter = trip.images?.let { TripGalleryAdapter(it.split(",")) }!! //Initialize adapter
+        binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) //Gives layout
     }
 }

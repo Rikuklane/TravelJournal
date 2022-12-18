@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.trips.TripDetailsFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tripPackingList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_open_options"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
     <TextView
         android:id="@+id/detailsCountryTextView"
         android:layout_width="wrap_content"
@@ -24,31 +33,29 @@
         android:id="@+id/detailsTripsDateFrom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
 
+        android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/placeholder_dates"
         android:textSize="20sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/detailsTripDateTo"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/detailsCountryTextView" />
 
     <TextView
         android:id="@+id/detailsTripDateTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="8dp"
 
-        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/placeholder_dates"
         android:textSize="20sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/detailsTripsDateFrom"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/detailsCountryTextView" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -63,15 +70,16 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="343dp"
-        android:layout_height="331dp"
+        android:layout_width="350dp"
+        android:layout_height="132dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/tripPackingList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -87,6 +95,9 @@
                 android:layout_marginBottom="24dp"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="10dp"
+                android:fontFamily="serif"
+                android:textSize="20sp"
+                android:textStyle="italic"
                 android:text="@string/placeholder_summary" />
 
         </LinearLayout>
@@ -131,6 +142,55 @@
         app:backgroundTint="#009688"
         app:layout_constraintBottom_toTopOf="@+id/button_edit_trip"
         app:layout_constraintEnd_toEndOf="@+id/button_edit_trip" />
+
+    <TextView
+        android:id="@+id/summarytext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="18dp"
+        android:text="@string/hint_trip_summary"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+
+    <TextView
+        android:id="@+id/packinglisttext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/packingList"
+        app:layout_constraintBottom_toTopOf="@+id/tripPackingList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="From"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/detailsTripsDateFrom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsCountryTextView" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="5dp"
+        android:text="To"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/detailsTripDateTo"
+        app:layout_constraintStart_toEndOf="@+id/detailsTripsDateFrom"
+        app:layout_constraintTop_toTopOf="@+id/detailsCountryTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

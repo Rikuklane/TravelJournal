@@ -134,6 +134,7 @@ class NewTripFragment : Fragment(), DateSelected{
         binding.newTripTitleText.text = getString(R.string.edit_trip)
         binding.enterCountryEditText.setText(trip!!.country)
         binding.tripSummaryEditText.setText(trip!!.summary)
+        binding.tripPackingList.setText(trip!!.packingList)
         trip!!.dateFrom?.let {
             val calendar: Calendar = Calendar.getInstance()
             calendar.time = it
@@ -150,7 +151,9 @@ class NewTripFragment : Fragment(), DateSelected{
             receiveDate(year, month, day, false) }
         if (!trip!!.images.equals("")) {
             imagePathList = trip!!.images?.split(",")!!
+            tripsAdapter.data = imagePathList
         }
+        tripsAdapter.notifyDataSetChanged()
     }
 
     //TODO: add another button which would allow the user to upload pictures from the gallery
@@ -233,6 +236,7 @@ class NewTripFragment : Fragment(), DateSelected{
             binding.tripSummaryEditText,
             binding.editFromDate,
             binding.editToDate,
+            binding.tripPackingList
         )
 
         val allEditTextsHaveContent = editTexts.all { !TextUtils.isEmpty(it.text) }
@@ -249,7 +253,8 @@ class NewTripFragment : Fragment(), DateSelected{
             editTexts[1].text.toString(),
             parsedFromDate,
             parsedToDate,
-            imagePathList.joinToString()
+            imagePathList.joinToString(),
+            editTexts[4].text.toString(),
         )
         Log.i(
             TAG,

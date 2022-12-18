@@ -30,7 +30,7 @@
     <fragment
         android:id="@+id/newTripFragment"
         android:name="com.example.traveljournal.ui.trips.NewTripFragment"
-        android:label="fragment_new_trip"
+        android:label="@string/new_trip"
         tools:layout="@layout/fragment_new_trip" >
         <action
             android:id="@+id/action_backToAllTrips"
@@ -40,7 +40,7 @@
     <fragment
         android:id="@+id/tripDetailsFragment"
         android:name="com.example.traveljournal.ui.trips.TripDetailsFragment"
-        android:label="fragment_trip_details"
+        android:label="@string/trip_details"
         tools:layout="@layout/fragment_trip_details" >
         <action
             android:id="@+id/action_fromDetailsToMain"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/nav_trips"
         android:name="com.example.traveljournal.ui.trips.TripsParentFragment"
-        android:label="TripsParentFragment" >
+        android:label="@string/menu_trips" >
         <action
             android:id="@+id/action_openTripDetailsFragment"
             app:destination="@id/tripDetailsFragment" />

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/packinglistItemCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
@@ -23,7 +23,7 @@
             <ImageView
                 android:id="@+id/tripImage"
                 android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_height="180dp"
                 android:contentDescription="trip_image"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

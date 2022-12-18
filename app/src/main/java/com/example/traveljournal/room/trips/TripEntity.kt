@@ -13,6 +13,7 @@ data class TripEntity(
     var dateFrom: Date?,
     var dateTo: Date?,
     var images: String?,
+    var packingList: String?,
 ){
     // Companion objects are used for static definitions in Kotlin
     companion object { const val DATEFORMAT = "dd/MM/yyyy" }
