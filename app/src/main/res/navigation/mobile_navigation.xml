@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_nav_newDocument"
             app:destination="@id/newDocumentFragment" />
+        <action
+            android:id="@+id/action_nav_editDocument"
+            app:destination="@id/editDocumentFragment" />
     </fragment>
 
     <fragment
@@ -46,8 +49,13 @@
             android:id="@+id/action_fromDetailsToMain"
             app:destination="@id/nav_trips" />
         <action
+<<<<<<< HEAD
             android:id="@+id/action_tripDetailsFragment_to_newTripFragment"
             app:destination="@id/newTripFragment" />
+=======
+            android:id="@+id/action_editTrip"
+            app:destination="@id/editTripFragment" />
+>>>>>>> origin/main
     </fragment>
 
     <fragment
@@ -58,6 +66,24 @@
         <action
             android:id="@+id/action_backToAllDocs"
             app:destination="@id/nav_document" />
+    </fragment>
+    <fragment
+        android:id="@+id/editDocumentFragment"
+        android:name="com.example.traveljournal.ui.documents.EditDocumentFragment"
+        android:label="fragment_edit_document"
+        tools:layout="@layout/fragment_edit_document" >
+        <action
+            android:id="@+id/action_backToDocs"
+            app:destination="@id/nav_document" />
+    </fragment>
+    <fragment
+        android:id="@+id/editTripFragment"
+        android:name="com.example.traveljournal.ui.trips.EditTripFragment"
+        android:label="fragment_edit_trip"
+        tools:layout="@layout/fragment_edit_trip" >
+        <action
+            android:id="@+id/action_allTrips"
+            app:destination="@id/nav_trips" />
     </fragment>
 
     <fragment

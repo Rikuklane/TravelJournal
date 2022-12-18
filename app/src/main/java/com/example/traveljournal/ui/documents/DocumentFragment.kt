@@ -1,9 +1,11 @@
 package com.example.traveljournal.ui.documents
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentDocumentsBinding
+import com.example.traveljournal.room.LocalDB
+import com.example.traveljournal.room.documents.DocumentEntity
 
 class DocumentFragment : Fragment() {
 
@@ -33,6 +37,7 @@ class DocumentFragment : Fragment() {
 
         _binding = FragmentDocumentsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
 
         setupRecyclerView()
         binding.buttonNewDocument.setOnClickListener{ openNewDocumentFragment() }
@@ -59,8 +64,44 @@ class DocumentFragment : Fragment() {
      * sets up a recycler view for  trips
      */
     private fun setupRecyclerView() {
-        documentsAdapter = DocumentsAdapter(model.documentsArray) //Initialize adapter
+        val documentClickListener = DocumentsAdapter.DocumentClickListener { p -> documentOptions(p) }
+        documentsAdapter = DocumentsAdapter(model.documentsArray, documentClickListener) //Initialize adapter
         binding.recyclerviewDocuments.adapter = documentsAdapter //Bind recyclerview to adapter
         binding.recyclerviewDocuments.layoutManager = LinearLayoutManager(context) //Gives layout
     }
+
+    fun documentOptions(doc: DocumentEntity) {
+        val dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.doc_dialog)
+        dialog.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        dialog.setCancelable(false)
+
+        val deleteBtn: Button = dialog.findViewById(R.id.deleteDocBtn)
+        val editBtn: Button = dialog.findViewById((R.id.editDocBtn))
+        val cancelBtn: Button = dialog.findViewById(R.id.cancelBtn)
+
+        cancelBtn.setOnClickListener() {
+            dialog.dismiss()
+        }
+
+        deleteBtn.setOnClickListener() {
+            LocalDB.getDocumentsInstance(requireContext()).getDocumentDAO().deleteDocument(doc)
+            model.refresh(documentsAdapter)
+            documentsAdapter.data = model.documentsArray
+            documentsAdapter.notifyDataSetChanged()
+            dialog.dismiss()
+        }
+        editBtn.setOnClickListener() {
+            val bundle = Bundle()
+            bundle.putLong(EditDocumentFragment.EXTRA_DOCUMENT_ID, doc.id)
+            findNavController().navigate(R.id.action_nav_editDocument, bundle)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+
 }
