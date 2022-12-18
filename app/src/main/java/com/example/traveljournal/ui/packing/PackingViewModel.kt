@@ -1,13 +1,29 @@
 package com.example.traveljournal.ui.packing
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.example.traveljournal.room.packing.PackingItem
+import com.example.traveljournal.room.packing.PackingItemRepository
+import kotlinx.coroutines.launch
 
-class PackingViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is packing Fragment"
+class PackingViewModel(private val repository: PackingItemRepository): ViewModel() {
+    var packingItems: LiveData<List<PackingItem>> = repository.allPackingItems.asLiveData()
+
+    fun addPackingItem(packingItem: PackingItem) = viewModelScope.launch{
+        repository.insertPackingItem(packingItem)
     }
-    val text: LiveData<String> = _text
+    fun deletePackingItem(packingItem: PackingItem) = viewModelScope.launch {
+        repository.deletePackingItem(packingItem)
+    }
+
+}
+class PackingViewModelFactory(private val repository: PackingItemRepository) : ViewModelProvider.Factory
+{
+    override fun <T : ViewModel> create(modelClass: Class<T>): T
+    {
+        if (modelClass.isAssignableFrom(PackingViewModel::class.java))
+            return PackingViewModel(repository) as T
+
+        throw IllegalArgumentException("Class error")
+    }
 }

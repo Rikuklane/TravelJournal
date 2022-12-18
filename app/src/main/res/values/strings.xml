@@ -138,4 +138,6 @@
     </string>
     <string name="trip_details">Trip details</string>
     <string name="packinglist_item">packinglistitem</string>
+    <string name="checkbox">Item</string>
+    <string name="hint_packing">Item</string>
 </resources>
