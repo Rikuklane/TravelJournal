@@ -114,7 +114,7 @@ class EditTripFragment : Fragment() {
                     trip.dateFrom = parsedFromDate
                     trip.dateTo = parsedToDate
                     trip.summary = editTexts[1].text.toString()
-                    trip.image = imagePath
+                    trip.images = imagePath
 
                     context?.let { LocalDB.getTripsInstance(it).getTripDAO().insertTrips(trip) }
                     findNavController().navigate(R.id.action_allTrips)
