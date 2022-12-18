@@ -22,6 +22,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -30,6 +31,7 @@ import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentNewTripBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.trips.TripEntity
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -80,6 +82,7 @@ class NewTripFragment : Fragment(), DateSelected{
         val root: View = binding.root
         setupSaveButton()
         setupCameraButton()
+        // TODO finish setupDateRangePicker()
         setUpDatePickers()
         setupRecyclerView()
         if (trip != null) {
@@ -97,6 +100,38 @@ class NewTripFragment : Fragment(), DateSelected{
         tripsAdapter = TripGalleryAdapter(imagePathList) //Initialize adapter
         binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false) //Gives layout
+    }
+
+    // TODO later use this instead somehow
+    private fun setupDateRangePicker() {
+        val calendarButton = binding.editFromDate
+        val materialDateBuilder: MaterialDatePicker.Builder<Pair<Long, Long>> =
+            MaterialDatePicker.Builder.dateRangePicker()
+
+
+        materialDateBuilder.setTitleText("SELECT A DATE")
+
+        val materialDatePicker: MaterialDatePicker<Pair<Long, Long>> = materialDateBuilder.build()
+
+        calendarButton.setOnClickListener {
+            activity?.let { it1 -> materialDatePicker.show(it1.supportFragmentManager, "MATERIAL_DATE_PICKER") }
+        }
+
+        materialDatePicker.addOnPositiveButtonClickListener {
+            calendarButton.text = materialDatePicker.headerText
+
+            val timeZoneUTC = TimeZone.getDefault()
+            // It will be negative, so that's the -1
+            val offsetFromUTC = timeZoneUTC.getOffset(Date().time) * -1
+
+            // TODO create a normal format with calendar as with the previous version.
+            // Create a date format, then a date object with our offset
+            val simpleFormat = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+            val date1 = Date(it.first + offsetFromUTC)
+            val date2 = Date(it.second + offsetFromUTC)
+
+            // TODO set date to text
+        }
     }
 
     private fun setupSaveButton() {

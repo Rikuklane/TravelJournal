@@ -51,9 +51,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.activity:activity-ktx:1.6.1"
 
-    //A Rich Text Editor: to create a blog post in the New Trip View
-    // TODO implement editor
-    // implementation 'com.1gravity:android-rteditor:1.7.8'
+    // TODO implement A Rich Text Editor: to create a blog post in the New Trip View
 
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
