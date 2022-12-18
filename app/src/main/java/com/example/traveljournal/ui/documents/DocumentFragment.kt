@@ -81,13 +81,11 @@ class DocumentFragment : Fragment() {
 
         val deleteBtn: Button = dialog.findViewById(R.id.deleteDocBtn)
         val editBtn: Button = dialog.findViewById((R.id.editDocBtn))
-        val cancelBtn: Button = dialog.findViewById(R.id.cancelBtn)
+        val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn)
 
         cancelBtn.setOnClickListener() {
             dialog.dismiss()
         }
-
-        val cancelBtn: Button = dialog.findViewById(R.id.cancelBtn)
 
         cancelBtn.setOnClickListener() {
             dialog.dismiss()
