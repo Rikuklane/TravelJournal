@@ -41,7 +41,7 @@
                 android:resource="@xml/fileprovider" />
         </provider>
         <receiver
-            android:name=".Notification"
+            android:name=".ui.documents.Notification"
             android:enabled="true"/>
         <activity
             android:name=".MainActivity"
