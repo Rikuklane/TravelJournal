@@ -8,8 +8,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tripPackingList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="319dp"
+        android:layout_height="197dp"
         android:layout_marginStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_open_options"
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="serif"
         android:text="@string/placeholder_dates"
         android:textSize="20sp"
@@ -50,7 +50,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="8dp"
         android:fontFamily="serif"
         android:text="@string/placeholder_dates"
         android:textSize="20sp"
@@ -64,15 +63,16 @@
         android:id="@+id/recyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsTripsDateFrom" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="364dp"
-        android:layout_height="170dp"
+        android:layout_width="361dp"
+        android:layout_height="127dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="30dp"
@@ -172,7 +172,8 @@
         android:text="@string/from"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toStartOf="@+id/detailsTripsDateFrom"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsCountryTextView" />
 
     <TextView
         android:id="@+id/textView5"
@@ -182,7 +183,8 @@
         android:text="@string/to"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toStartOf="@+id/detailsTripDateTo"
-        app:layout_constraintStart_toEndOf="@+id/detailsTripsDateFrom" />
+        app:layout_constraintStart_toEndOf="@+id/detailsTripsDateFrom"
+        app:layout_constraintTop_toBottomOf="@+id/detailsCountryTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

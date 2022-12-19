@@ -126,7 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationClickL
             //queries based on the https. the query is adapted to the current location of the user
             //max radius 500m and 10 queries is the default
             .load(
-                "https://en.wikipedia.org/w/api.php?action=query&&generator=geosearch&prop=coordinates|pageimages|description|info&&pithumbsize=400&ggsradius=500&ggslimit=10&format=json&ggscoord=" + location.latitude.toString() + "|" + location.longitude.toString()
+                "https://en.wikipedia.org/w/api.php?action=query&&generator=geosearch&prop=coordinates|pageimages|description|info&&pithumbsize=400&ggsradius=1000&ggslimit=10&format=json&ggscoord=" + location.latitude.toString() + "|" + location.longitude.toString()
             ).asJsonObject()?.setCallback { e, result ->
                 if (e != null) {
                     Log.e("QueryResult", e.toString())

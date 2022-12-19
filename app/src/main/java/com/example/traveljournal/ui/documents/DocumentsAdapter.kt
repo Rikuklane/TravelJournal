@@ -11,6 +11,7 @@ import com.example.traveljournal.R
 import com.example.traveljournal.room.documents.DocumentEntity
 import com.example.traveljournal.room.trips.TripEntity
 import com.example.traveljournal.ui.trips.TripsAdapter
+import java.text.SimpleDateFormat
 
 class DocumentsAdapter(var data: Array<DocumentEntity> = arrayOf(), private var listener: DocumentsAdapter.DocumentClickListener)
     : RecyclerView.Adapter<DocumentsAdapter.DocumentViewHolder>() {
@@ -31,8 +32,13 @@ class DocumentsAdapter(var data: Array<DocumentEntity> = arrayOf(), private var 
         val document = data[position]
 
         holder.itemView.apply {
+            val formatter = SimpleDateFormat("dd.MMM yyyy")
             this.findViewById<TextView>(R.id.docTypeTextView).text = document.type
-            this.findViewById<TextView>(R.id.docExpirationTextView).text = document.expiration.toString()
+            this.findViewById<TextView>(R.id.docExpirationTextView).text = document.expiration?.let {
+                formatter.format(
+                    it
+                )
+            }
             setOnClickListener { listener.onDocumentClick(document) }
         }
 

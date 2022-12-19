@@ -30,11 +30,7 @@
     <string name="hint_country">Destination</string>
     <string name="edit_trip">Edit Trip</string>
     <string name="new_trip">New Trip</string>
-
-    <string name="date">Date</string>
-    <string name="hint_select_date">Select a date</string>
-    <string name="selectedDate">%1$s - %2$s</string>
-
+    <string name="from">From</string>
     <string name="packingList">Packinglist</string>
 
     <string name="doc_options">Document Options</string>
@@ -48,7 +44,13 @@
     <string name="save">Save</string>
     <string name="name">Name</string>
     <string name="newtask">New task</string>
+    <string name="hint_date_from">From (DD/MM/YYYY)</string>
+    <string name="hint_date_to">To (DD/MM/YYYY)</string>
     <string name="newpackingitem">New packing item</string>
+    <string name="to">To</string>
+    <string name="date">Date</string>
+    <string name="hint_select_date">Select a date</string>
+    <string name="selectedDate">%1$s - %2$s</string>
     <string name="item">Item</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
