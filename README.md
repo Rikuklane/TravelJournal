@@ -52,8 +52,6 @@ The packing list feature could be improved in a way that you can create several 
 
 To the general Trips View, some searching or sorting (by date or alphabetically) mechanism would be useful. For when the user has a lot of trips and wants to find them quickly.
 
-Could also add a DateRangePicker instead of two DatePickers in the NewTrip creation to reduce friction.
-
 The Maps feature could be improved so that the user can save certain locations they want to visit in the world.
 
 Additionally, some sort of trip budget or expense logging feature would be useful. To have an overview of how much a certain trip cost and for that very reason, some currency exchange calculator would also be beneficial.

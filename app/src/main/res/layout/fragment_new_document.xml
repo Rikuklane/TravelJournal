@@ -20,19 +20,17 @@
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editExpiryDate"
+        app:layout_constraintTop_toBottomOf="@+id/expiryDateButton"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
-    <EditText
-        android:id="@+id/editExpiryDate"
+    <Button
+        android:id="@+id/expiryDateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
-        android:ems="10"
-        android:hint="Expires: DD/MM/YYYY"
-        android:inputType="date"
+        android:text="@string/hint_expiry_date"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

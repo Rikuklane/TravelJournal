@@ -18,13 +18,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.util.Pair
 import androidx.navigation.fragment.findNavController
 import com.example.traveljournal.R
 import com.example.traveljournal.databinding.FragmentNewDocumentBinding
 import com.example.traveljournal.databinding.FragmentNewTripBinding
 import com.example.traveljournal.room.LocalDB
 import com.example.traveljournal.room.documents.DocumentEntity
+import com.example.traveljournal.room.trips.DateTypeConverter
 import com.example.traveljournal.room.trips.TripEntity
+import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,6 +35,9 @@ import java.util.*
 class NewDocumentFragment : Fragment() {
     private val TAG = "NewDocumentFragment"
     private var _binding: FragmentNewDocumentBinding? = null
+    private var expiredDate: Date? = null
+    private val converter = DateTypeConverter()
+    private val formatter = SimpleDateFormat("dd.MMM yyyy", Locale.UK)
 
     // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
@@ -39,12 +45,13 @@ class NewDocumentFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNewDocumentBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         createNotificationChannel()
         setupSaveButton()
+        setupDateRangePicker()
 
         return root
     }
@@ -70,6 +77,27 @@ class NewDocumentFragment : Fragment() {
         }
     }
 
+    private fun setupDateRangePicker() {
+        val calendarButton = binding.expiryDateButton
+        val materialDateBuilder: MaterialDatePicker.Builder<Long> =
+            MaterialDatePicker.Builder.datePicker()
+
+        materialDateBuilder.setTitleText(R.string.hint_select_date)
+
+        val materialDatePicker: MaterialDatePicker<Long> = materialDateBuilder.build()
+
+        calendarButton.setOnClickListener {
+            activity?.let { it1 -> materialDatePicker.show(it1.supportFragmentManager, "MATERIAL_DATE_PICKER") }
+        }
+
+        materialDatePicker.addOnPositiveButtonClickListener {
+            expiredDate = converter.toDate(it)
+            expiredDate?.let { it1 ->
+                calendarButton.text = getString(R.string.expiry_date, formatter.format(it1))
+            }
+        }
+    }
+
     private fun saveDocumentToDB(newDocument: DocumentEntity) {
         context?.let {LocalDB.getDocumentsInstance(it).getDocumentDAO().insertDocument(newDocument)}
     }
@@ -77,39 +105,23 @@ class NewDocumentFragment : Fragment() {
     private fun getUserEnteredDocument(): DocumentEntity? {
         val editTexts = listOf(
             binding.editIdType,
-            binding.editExpiryDate
         )
 
         val allEditTextsHaveContent = editTexts.all { !TextUtils.isEmpty(it.text) }
-        val parsedDate = parseDate(editTexts[1].text.toString())
-        if (!allEditTextsHaveContent or (parsedDate == null)) {
+        if (!allEditTextsHaveContent or (expiredDate == null)) {
             return null // Input is not valid
         }
         //create a new trip entity based on user entered values
         val document = DocumentEntity(
             0,
             editTexts[0].text.toString(),
-            parsedDate
+            expiredDate
         )
         Log.i(
             TAG,
             " ${document.id} + ${document.type} + ${document.expiration}"
         )
         return document
-    }
-
-    /** Tries to parse argument string as a Date in format specified by TripEntity.DATEFORMAT,
-     * returns null if fails or a Date object if succeeded */
-    private fun parseDate(inDate: String): Date? {
-        val dateFormat = SimpleDateFormat(TripEntity.DATEFORMAT, Locale.getDefault())
-        dateFormat.isLenient = false
-        var parsedDate: Date? = null
-        try {
-            parsedDate = dateFormat.parse(inDate)
-        } catch (pe: ParseException) {
-            return parsedDate
-        }
-        return parsedDate
     }
 
     /**
@@ -122,8 +134,7 @@ class NewDocumentFragment : Fragment() {
         val intent = Intent(context, Notification::class.java)
         val idType = binding.editIdType.text.toString()
         val title = "Document about to expire!"
-        val expDate = parseDate(binding.editExpiryDate.text.toString())
-        val expDateInMillis: Long = expDate!!.time
+        val expDateInMillis: Long = expiredDate!!.time
         val reminder1: Long = expDateInMillis - 15778800000 //6 months before the exp date
         val reminder2: Long = expDateInMillis - 7889400000 //3 months before the exp date
         val reminder3: Long = expDateInMillis - 2629800000 //1 month before the exp date

@@ -98,7 +98,6 @@ class NewTripFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false) //Gives layout
     }
 
-    // TODO later use this instead somehow
     private fun setupDateRangePicker() {
         val calendarButton = binding.selectDateButton
         val materialDateBuilder: MaterialDatePicker.Builder<Pair<Long, Long>> =
