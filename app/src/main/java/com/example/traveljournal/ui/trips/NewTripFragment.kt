@@ -123,7 +123,6 @@ class NewTripFragment : Fragment(), DateSelected {
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) //Gives layout
     }
 
-    // TODO later use this instead somehow
     private fun setupDateRangePicker() {
         val calendarButton = binding.editFromDate
         val materialDateBuilder: MaterialDatePicker.Builder<Pair<Long, Long>> =
