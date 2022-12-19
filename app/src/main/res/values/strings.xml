@@ -27,13 +27,12 @@
 
     <string name="hint_trip_summary">Trip Summary</string>
     <string name="hint_country">Destination</string>
-    <string name="hint_date_from">From (DD/MM/YYYY)</string>
-    <string name="hint_date_to">To (DD/MM/YYYY)</string>
     <string name="edit_trip">Edit Trip</string>
     <string name="new_trip">New Trip</string>
 
-    <string name="from">From</string>
-    <string name="to">To</string>
+    <string name="date">Date</string>
+    <string name="hint_select_date">Select a date</string>
+    <string name="selectedDate">%1$s - %2$s</string>
 
     <string name="packingList">Packinglist</string>
 
