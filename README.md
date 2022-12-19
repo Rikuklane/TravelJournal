@@ -66,4 +66,9 @@ Different life schedules also made this a bit more complicated because in order 
 But in the end, this project was made for learning purposes and a lot of learning was indeed done.
 
 ## OWASP report
-TODO
+- MSTG-CODE-2 - The requirement is to make sure that the app has been built in release mode, with settings appropriate for a release build and make sure the app is not debuggable.
+  - To test the requirement we looked up if the `AndroidManifest.xml` contains `android:debuggable`, but it didn’t and as the default value is false then it satisfied the requirement.
+- MSTG-PLATFORM-1 - The app only requests the minimum set of permissions necessary. In our context it should only ask the permissions regarding the use of the camera for taking pictures, GPS location for , storage for writing and reading pictures and for scheduling an alarm for giving notifications when the document is going to expire.
+  - To test the requirement we looked up what permissions and features we have defined in the `AndroidManifest.xml` and most of the permissions that we have are actually defined as dangerous. Then we checked if we are asking the user for their permissions in all of these cases, but it turns out that we were asking permission in a place that it was not necessary so we removed it and we are not asking permissions for `SCHEDULE_EXACT_ALARM` We are also not explaining why we need the permission when we are requesting it.
+  - This requirement is not fulfilled entirely, to fill this requirement we would need to request access to `SCHEDULE_EXACT_ALARM` or instead of that use Firebase to schedule notifications which is an even better approach. And besides that would need to explain why the permissions are exactly needed.
+
