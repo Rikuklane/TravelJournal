@@ -1,5 +1,8 @@
 package com.example.traveljournal.ui.trips
 
+import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,4 +44,5 @@ class TripsParentFragment : Fragment() {
     private fun openNewTripFragment() {
         findNavController().navigate(R.id.action_openNewTripFragment)
     }
+
 }

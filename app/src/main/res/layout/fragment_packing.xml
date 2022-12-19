@@ -24,9 +24,10 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="?attr/colorPrimary"
+        android:contentDescription="@string/action_settings"
         android:padding="5dp"
         android:textColor="?colorOnPrimary"
         app:icon="@drawable/ic_edit"
-        app:iconTint="?colorOnPrimary" />
+        app:iconTint="@color/black" />
 
 </RelativeLayout>

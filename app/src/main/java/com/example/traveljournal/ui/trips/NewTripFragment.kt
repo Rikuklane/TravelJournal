@@ -7,6 +7,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -25,6 +26,7 @@ import androidx.core.content.FileProvider
 import androidx.core.util.Pair
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.loader.content.CursorLoader
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.traveljournal.R
@@ -38,7 +40,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class NewTripFragment : Fragment(), DateSelected{
+class NewTripFragment : Fragment(), DateSelected {
 
     private val TAG = "NewTripFragment"
     private var _binding: FragmentNewTripBinding? = null
@@ -48,7 +50,9 @@ class NewTripFragment : Fragment(), DateSelected{
     private var fromDate: Date? = Date()
     private var toDate: Date? = Date()
     private var trip: TripEntity? = null
-    companion object { const val ID = "id"
+
+    companion object {
+        const val ID = "id"
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -58,6 +62,21 @@ class NewTripFragment : Fragment(), DateSelected{
                 Log.i(TAG, "Image saved: $it")
                 tripsAdapter.data = imagePathList
                 tripsAdapter.notifyDataSetChanged()
+            } else {
+                Log.i(TAG, "Failed creating image")
+            }
+        }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private var galleryLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val pickedPhoto = it.data?.data
+                //TODO: uri to path
+                //imagePathList = imagePathList.plus(pickedPhoto?.let { it1 -> getRealPathFromURI(it1)}.toString())
+                //Log.i(TAG, imagePathList.toString())
+                //tripsAdapter.data = imagePathList
+                //tripsAdapter.notifyDataSetChanged()
             } else {
                 Log.i(TAG, "Failed creating image")
             }
@@ -81,6 +100,7 @@ class NewTripFragment : Fragment(), DateSelected{
         _binding = FragmentNewTripBinding.inflate(inflater, container, false)
         val root: View = binding.root
         setupSaveButton()
+        setUpGalleryOpen()
         setupCameraButton()
         // TODO finish setupDateRangePicker()
         setUpDatePickers()
@@ -99,7 +119,8 @@ class NewTripFragment : Fragment(), DateSelected{
     private fun setupRecyclerView() {
         tripsAdapter = TripGalleryAdapter(imagePathList) //Initialize adapter
         binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false) //Gives layout
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) //Gives layout
     }
 
     // TODO later use this instead somehow
@@ -140,7 +161,9 @@ class NewTripFragment : Fragment(), DateSelected{
             val newTrip = getUserEnteredTrip()
             // Store them in DB
             if (newTrip != null) {
-                if (trip != null){newTrip.id = trip!!.id}
+                if (trip != null) {
+                    newTrip.id = trip!!.id
+                }
                 //after saving the new trip, the view navigates back to all Trips
                 saveTripToDB(newTrip)
                 findNavController().navigate(R.id.action_backToAllTrips)
@@ -151,21 +174,21 @@ class NewTripFragment : Fragment(), DateSelected{
         }
     }
 
-    private fun setUpDatePickers(){
+    private fun setUpDatePickers() {
         val formatter = DateTimeFormatter.ofPattern("dd.MMM yyyy")
         binding.editFromDate.text = LocalDate.now().format(formatter)
-        binding.editFromDate.setOnClickListener{showDatePicker(true)}
+        binding.editFromDate.setOnClickListener { showDatePicker(true) }
 
         binding.editToDate.text = LocalDate.now().format(formatter)
-        binding.editToDate.setOnClickListener{showDatePicker(false)}
+        binding.editToDate.setOnClickListener { showDatePicker(false) }
     }
 
-    private fun showDatePicker(begin: Boolean){
+    private fun showDatePicker(begin: Boolean) {
         val datePickerFragment = DatePickerFragment(this, begin)
         datePickerFragment.show(requireFragmentManager(), "DatePicker")
     }
 
-    private fun setUpEditView(){
+    private fun setUpEditView() {
         binding.newTripTitleText.text = getString(R.string.edit_trip)
         binding.enterCountryEditText.setText(trip!!.country)
         binding.tripSummaryEditText.setText(trip!!.summary)
@@ -176,29 +199,36 @@ class NewTripFragment : Fragment(), DateSelected{
             val year: Int = calendar.get(Calendar.YEAR)
             val month: Int = calendar.get(Calendar.MONTH)
             val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
-            receiveDate(year, month, day, true) }
+            receiveDate(year, month, day, true)
+        }
         trip!!.dateTo?.let {
             val calendar: Calendar = Calendar.getInstance()
             calendar.time = it
             val year: Int = calendar.get(Calendar.YEAR)
             val month: Int = calendar.get(Calendar.MONTH)
             val day: Int = calendar.get(Calendar.DAY_OF_MONTH)
-            receiveDate(year, month, day, false) }
+            receiveDate(year, month, day, false)
+        }
         if (!trip!!.images.equals("")) {
             imagePathList = trip!!.images?.split(",")!!
             tripsAdapter.data = imagePathList
         }
-        tripsAdapter.notifyDataSetChanged()
     }
 
-    //TODO: add another button which would allow the user to upload pictures from the gallery
 
     private fun checkCameraPermission() = ActivityCompat.checkSelfPermission(
         requireContext(), Manifest.permission.CAMERA
     ) == PackageManager.PERMISSION_GRANTED
 
+    private fun checkGalleryPermission() = ActivityCompat.checkSelfPermission(
+        requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+    ) == PackageManager.PERMISSION_GRANTED
+
     private fun requestCameraPermission() =
         requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+
+    private fun requestGalleryPermission() =
+        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -235,6 +265,31 @@ class NewTripFragment : Fragment(), DateSelected{
         }
     }
 
+    private fun setUpGalleryOpen() {
+        binding.buttonOpenGallery.setOnClickListener {
+            if (!checkGalleryPermission()) {
+                requestGalleryPermission()
+            } else {
+                val i = Intent()
+                i.type = "image/*"
+                i.action = Intent.ACTION_GET_CONTENT
+                galleryLauncher.launch(i)
+            }
+        }
+    }
+
+    private fun getRealPathFromURI(contentUri: Uri): String? {
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val loader = context?.let { CursorLoader(it, contentUri, proj, null, null, null) }
+        val cursor: Cursor? = loader?.loadInBackground()
+        val column_index = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor?.moveToFirst()
+        val result = column_index?.let { cursor.getString(it) }
+        cursor?.close()
+        return result
+    }
+
+
     /**
      * -- Base from project guide https://courses.cs.ut.ee/2022/MAD/fall/Main/MiniProject1 --
      * Returns the File for a photo stored on disk given the fileName.
@@ -256,13 +311,13 @@ class NewTripFragment : Fragment(), DateSelected{
     }
 
     private fun saveTripToDB(newTrip: TripEntity) {
-        trip?.let {LocalDB.getTripsInstance(requireContext()).getTripDAO().deleteTrips(trip!!)  }
+        trip?.let { LocalDB.getTripsInstance(requireContext()).getTripDAO().deleteTrips(trip!!) }
         context?.let { LocalDB.getTripsInstance(it).getTripDAO().insertTrips(newTrip) }
     }
 
-    private fun getTripFromDB(id: Long){
+    private fun getTripFromDB(id: Long) {
         val trips = LocalDB.getTripsInstance(requireContext()).getTripDAO().loadTrips()
-        trip = trips.find { t -> id == t.id}!!
+        trip = trips.find { t -> id == t.id }!!
     }
 
     private fun getUserEnteredTrip(): TripEntity? {
@@ -277,6 +332,7 @@ class NewTripFragment : Fragment(), DateSelected{
         val allEditTextsHaveContent = editTexts.all { !TextUtils.isEmpty(it.text) }
         val parsedFromDate = fromDate
         val parsedToDate = toDate
+        imagePathList
         if (!allEditTextsHaveContent or (parsedFromDate == null) or (parsedToDate == null)) {
             return null // Input is not valid
         }
@@ -298,7 +354,8 @@ class NewTripFragment : Fragment(), DateSelected{
         return trip
     }
 
-    class DatePickerFragment(private val dateSelected: DateSelected, val begin: Boolean) : DialogFragment(), DatePickerDialog.OnDateSetListener {
+    class DatePickerFragment(private val dateSelected: DateSelected, val begin: Boolean) :
+        DialogFragment(), DatePickerDialog.OnDateSetListener {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val calendar: Calendar = Calendar.getInstance()
             val year: Int = calendar.get(Calendar.YEAR)
@@ -319,13 +376,13 @@ class NewTripFragment : Fragment(), DateSelected{
 
     override fun receiveDate(year: Int, month: Int, day: Int, begin: Boolean) {
         val calendar = GregorianCalendar()
-        calendar.set(year,month, day)
+        calendar.set(year, month, day)
         val formatter = SimpleDateFormat("dd.MMM yyyy")
         val formattedDate = formatter.format(calendar.time)
-        if (begin){
+        if (begin) {
             binding.editFromDate.text = formattedDate
             fromDate = calendar.time
-        } else{
+        } else {
             binding.editToDate.text = formattedDate
             toDate = calendar.time
         }
@@ -333,7 +390,7 @@ class NewTripFragment : Fragment(), DateSelected{
     }
 }
 
-interface DateSelected{
+interface DateSelected {
     fun receiveDate(year: Int, month: Int, day: Int, begin: Boolean)
 }
 

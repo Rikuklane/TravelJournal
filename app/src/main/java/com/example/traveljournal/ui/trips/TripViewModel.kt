@@ -2,6 +2,9 @@ package com.example.traveljournal.ui.trips
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import com.example.traveljournal.room.LocalDB
@@ -24,6 +27,14 @@ class TripViewModel(val app: Application) : AndroidViewModel(app) {
             Log.i(TAG, "Trips refreshed")
         } catch (exception: Exception){
             Log.i(TAG, "Error refreshing trips: $exception")
+        }
+    }
+
+    fun loadImage(image: Uri): Bitmap {
+        getApplication<Application>().contentResolver.openInputStream(image).use {
+            val fullBitmap = BitmapFactory.decodeStream(it)
+            val ratio = fullBitmap.width.toDouble() / fullBitmap.height
+            return Bitmap.createScaledBitmap(fullBitmap, (800 * ratio).toInt(), 800, false)
         }
     }
 }

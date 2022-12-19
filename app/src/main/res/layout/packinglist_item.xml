@@ -29,7 +29,7 @@
             android:contentDescription="@string/packinglist_item"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            app:backgroundTint="@color/purple_200"
+            app:backgroundTint="@color/green_light"
             app:backgroundTintMode="src_atop"
             app:elevation="0dp"
             app:iconTint="@color/black"

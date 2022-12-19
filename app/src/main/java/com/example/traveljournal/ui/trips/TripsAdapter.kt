@@ -9,6 +9,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveljournal.R
 import com.example.traveljournal.room.trips.TripEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
 class TripsAdapter(
@@ -34,9 +38,13 @@ class TripsAdapter(
 
         if (trip.images != "") {
             val image = trip.images?.split(",")!!
-            val bmp = BitmapFactory.decodeFile(image[0])
-            holder.itemView.apply {
-                this.findViewById<ImageView>(R.id.countryImageView).setImageBitmap(bmp)
+            CoroutineScope(Dispatchers.IO).launch {
+                val bmp = BitmapFactory.decodeFile(image[0])
+                withContext(Dispatchers.Main) {
+                    holder.itemView.apply {
+                        this.findViewById<ImageView>(R.id.countryImageView).setImageBitmap(bmp)
+                    }
+                }
             }
         }
 

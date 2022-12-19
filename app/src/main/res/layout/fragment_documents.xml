@@ -15,8 +15,10 @@
         android:clickable="true"
         android:contentDescription="@string/new_trip"
         android:focusable="true"
+        app:backgroundTint="@color/blue_darker"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/white"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.recyclerview.widget.RecyclerView

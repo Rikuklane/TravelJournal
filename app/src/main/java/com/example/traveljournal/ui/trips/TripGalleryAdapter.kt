@@ -1,6 +1,5 @@
 package com.example.traveljournal.ui.trips
 
-
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveljournal.R
+import kotlinx.coroutines.*
 
 class TripGalleryAdapter(
     var data: List<String> = mutableListOf()
@@ -26,9 +26,13 @@ class TripGalleryAdapter(
         val img = data[position].strip()
 
         if (img != "") {
-            val bmp = BitmapFactory.decodeFile(img)
-            holder.itemView.apply {
-                this.findViewById<ImageView>(R.id.tripImage).setImageBitmap(bmp)
+            CoroutineScope(Dispatchers.IO).launch {
+                val bmp = BitmapFactory.decodeFile(img)
+                withContext(Dispatchers.IO) {
+                    holder.itemView.apply {
+                        this.findViewById<ImageView>(R.id.tripImage).setImageBitmap(bmp)
+                    }
+                }
             }
         }
 

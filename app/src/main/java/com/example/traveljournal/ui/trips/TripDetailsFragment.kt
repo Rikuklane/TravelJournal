@@ -183,17 +183,11 @@ class TripDetailsFragment : Fragment() {
 
         trip.apply {
             val formatter = SimpleDateFormat("dd.MMM yyyy")
-            binding.detailsCountryTextView.text = this.country
+            binding.detailsCountryTextView.text = getString(R.string.destination, this.country)
             binding.detailsTripSummary.text = this.summary
             binding.detailsTripsDateFrom.text = trip.dateFrom?.let { formatter.format(it) }
             binding.detailsTripDateTo.text = trip.dateTo?.let { formatter.format(it) }
         }
     }
 
-    private fun packingListRecyclerview() {
-        tripsAdapter = trip.images?.let { TripGalleryAdapter(it.split(",")) }!! //Initialize adapter
-        binding.recyclerView.adapter = tripsAdapter //Bind recyclerview to adapter
-        binding.recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false) //Gives layout
-    }
 }
